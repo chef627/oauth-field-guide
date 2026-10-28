@@ -1,0 +1,351 @@
+{
+  "appName": "PandaDoc",
+  "website": "https://www.pandadoc.com",
+  "summary": "PandaDoc supports standard OAuth 2.0 authorization code flow with two scopes (read, write). But creating an OAuth application needs production API access, which the docs tie to the Enterprise plan and activation by PandaDoc staff. Composio has no managed OAuth app for PandaDoc: the main pandadoc toolkit is API-key only, and a separate pandadoc_mcp toolkit uses dynamic-client-registration OAuth. Biggest gotcha: you cannot register an OAuth app on a trial or sandbox-only account.",
+  "verdict": {
+    "difficulty": "gated",
+    "difficultyReason": "OAuth app creation requires production API access, documented as Enterprise plan plus activation by PandaDoc's team via Support, CSM or Sales.",
+    "devReady": {
+      "estimate": "Same day with a sandbox API key (not OAuth); real OAuth: days to weeks, depending on Enterprise/production activation",
+      "detail": "A sandbox API key works on any plan, including trials, but it is not OAuth. Creating an OAuth application in the Developer Dashboard is only available once production API access is enabled. Alternatives: Composio's pandadoc toolkit (API key) or pandadoc_mcp (DCR OAuth)."
+    },
+    "productionReady": {
+      "estimate": "Same as dev-ready once production access is active; no separate public app review found. Wait time is unpublished.",
+      "approvalRequired": true,
+      "detail": "The docs describe no separate app review or marketplace listing for OAuth. The gate is the Enterprise plan and activation of Production API by PandaDoc. After that, each end user authorizes your app with their own PandaDoc account. No timeline is published."
+    },
+    "handsOnEffort": "1-2 hours once production access is active"
+  },
+  "nextAction": "Ask PandaDoc Sales (or your CSM/Support if you already have a paid plan) to enable Production API access with OAuth application creation. Then open the Developer Dashboard at https://app.pandadoc.com/a/#/settings/api-dashboard. Meanwhile, generate a sandbox key per https://developers.pandadoc.com/reference/sandbox-key to build against the API.",
+  "accessPaths": [
+    {
+      "name": "Sandbox API key (no OAuth)",
+      "whenToUse": "Prototyping against the API on any plan, including trial.",
+      "reviewRequired": false,
+      "timeline": "Minutes",
+      "limits": "Predefined sandbox rate limits; API key, not OAuth; documents are sandbox-only."
+    },
+    {
+      "name": "Composio pandadoc_mcp (DCR OAuth)",
+      "whenToUse": "You want OAuth through Composio without registering your own PandaDoc app. The user needs to be able to authorize via PandaDoc's MCP.",
+      "reviewRequired": false,
+      "timeline": "Minutes (not verified end to end)",
+      "limits": "Default scopes read,write. Composio shows no managed auth schemes for it; behavior unverified."
+    },
+    {
+      "name": "Own OAuth application (production API access)",
+      "whenToUse": "Production multi-user product where end users connect their own PandaDoc accounts via OAuth.",
+      "reviewRequired": true,
+      "timeline": "Days to weeks for Enterprise/production activation (estimate, not published), then about an hour of setup",
+      "limits": "Requires Enterprise plan and PandaDoc activation. Access token lasts about one year. Production rate limits apply."
+    }
+  ],
+  "prerequisites": [
+    {
+      "item": "Active PandaDoc account with verified email",
+      "detail": "Required before the Developer Dashboard works.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Enterprise plan and Production API activation",
+      "detail": "Docs: 'To use the Production API key, you need to be on the Enterprise plan', and PandaDoc's team must activate it. Contact Sales, or Support/CSM if already a customer. Application creation is only available with production access.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Composio account",
+      "detail": "To create a custom auth config at https://dashboard.composio.dev",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "HTTPS redirect URI",
+      "detail": "Use https://backend.composio.dev/api/v1/auth-apps/add",
+      "required": true,
+      "owner": "agent"
+    }
+  ],
+  "phases": [
+    {
+      "title": "Get production API access",
+      "goal": "Your account can create OAuth applications.",
+      "duration": "30 min hands-on",
+      "waitTime": "Unpublished; depends on PandaDoc Sales/Support",
+      "steps": [
+        {
+          "title": "Build against sandbox first",
+          "detail": "Generate a sandbox API key in the Developer Dashboard. Works on any plan.",
+          "owner": "you",
+          "url": "https://developers.pandadoc.com/reference/sandbox-key",
+          "confidence": "documented",
+          "sourceIds": [
+            3,
+            4
+          ]
+        },
+        {
+          "title": "Request Production API activation",
+          "detail": "Existing paid customers: Support or CSM. Otherwise contact Sales. Mention you need OAuth application creation for a multi-user integration.",
+          "owner": "you",
+          "url": "https://developers.pandadoc.com/reference/production-api-key",
+          "confidence": "documented",
+          "sourceIds": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Create the OAuth app and connect Composio",
+      "goal": "An OAuth flow works with your own account.",
+      "duration": "1-2 hours",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create an application",
+          "detail": "Developer Dashboard > API settings > Applications (Create application). Set redirect URI to https://backend.composio.dev/api/v1/auth-apps/add. Copy Client ID and Client Secret. Exact menu labels and redirect rules not confirmed (pages gated).",
+          "owner": "agent_assisted",
+          "url": "https://developers.pandadoc.com/reference/create-an-application",
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Create Composio auth config",
+          "detail": "Dashboard > Auth Configs > Create Auth Config > select PandaDoc toolkit > OAuth2 > paste Client ID and Secret > Create > copy ac_... ID. Note: Composio's pandadoc toolkit lists only API_KEY, so a custom OAuth2 option may not be offered; if absent, ask Composio support or use pandadoc_mcp.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "unverified",
+          "sourceIds": [
+            1,
+            7
+          ]
+        },
+        {
+          "title": "Pass auth config in session",
+          "detail": "Use authConfigs keyed by toolkit slug 'pandadoc' with your ac_ ID.",
+          "owner": "agent",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            1
+          ]
+        },
+        {
+          "title": "Test the flow",
+          "detail": "Authorize URL: https://app.pandadoc.com/oauth2/authorize?client_id=ID&redirect_uri=URI&scope=read%20write&response_type=code&state=RANDOM. Exchange code at POST https://api.pandadoc.com/oauth2/access_token (form-encoded).",
+          "owner": "agent",
+          "url": "https://developers.pandadoc.com/reference/access-token",
+          "confidence": "documented",
+          "sourceIds": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Go live and maintain",
+      "goal": "Any end user with a PandaDoc account can connect.",
+      "duration": "1 hour",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Use state parameter and store refresh tokens",
+          "detail": "Access token lasts about a year (31535999 s). On 401, refresh with grant_type=refresh_token. Whether the refresh token rotates is not documented; store whatever is returned.",
+          "owner": "agent",
+          "url": "https://developers.pandadoc.com/reference/state-parameter",
+          "confidence": "documented",
+          "sourceIds": [
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "read",
+      "purpose": "View templates and document details",
+      "sensitivity": "basic",
+      "reviewNote": "No scope-specific review documented."
+    },
+    {
+      "scope": "write",
+      "purpose": "Create, send, delete, and download documents",
+      "sensitivity": "sensitive",
+      "reviewNote": "No scope-specific review documented."
+    },
+    {
+      "scope": "read write",
+      "purpose": "Both; recommended value (space-separated). 'read+write' is documented as deprecated.",
+      "sensitivity": "sensitive",
+      "reviewNote": "No scope-specific review documented."
+    }
+  ],
+  "blockers": [
+    {
+      "title": "No OAuth app creation without production access",
+      "symptom": "Application section unavailable in Developer Dashboard.",
+      "fix": "Get Enterprise plan and have PandaDoc activate Production API (Sales/Support/CSM).",
+      "confidence": "documented",
+      "sourceIds": [
+        3,
+        4
+      ]
+    },
+    {
+      "title": "Composio pandadoc toolkit is API-key only",
+      "symptom": "No OAuth2 option when creating auth config for pandadoc.",
+      "fix": "Use API key auth, the pandadoc_mcp toolkit (DCR OAuth), or ask Composio about adding OAuth2 for the toolkit.",
+      "confidence": "tested",
+      "sourceIds": [
+        7
+      ]
+    },
+    {
+      "title": "Deprecated scope format",
+      "symptom": "Scope errors using read+write.",
+      "fix": "Use 'read write' (URL-encoded as read%20write).",
+      "confidence": "documented",
+      "sourceIds": [
+        5
+      ]
+    },
+    {
+      "title": "Authorization code is single use",
+      "symptom": "invalid_grant on token exchange.",
+      "fix": "Start a new authorization to get a fresh code; don't retry old ones.",
+      "confidence": "documented",
+      "sourceIds": [
+        5
+      ]
+    }
+  ],
+  "technical": {
+    "consoleUrl": "https://app.pandadoc.com/a/#/settings/api-dashboard",
+    "docsUrl": "https://developers.pandadoc.com/reference/authentication-process",
+    "authorizeUrl": "https://app.pandadoc.com/oauth2/authorize",
+    "tokenUrl": "https://api.pandadoc.com/oauth2/access_token",
+    "pkce": "Not documented; assume not supported/required.",
+    "refreshTokens": "Access token about 1 year (31535999 s). Refresh via grant_type=refresh_token at the same endpoint. Rotation not documented.",
+    "redirectUriRules": "Must match the application settings; further rules (wildcards, localhost, count) not confirmed.",
+    "notes": "Authorization code is one-time use. Token endpoint takes form-encoded body with client_id and client_secret in body. Member tokens exist but only on request. Probe of authorize URL with unknown client redirected to PandaDoc login (200), so it is live."
+  },
+  "agentHelp": {
+    "canDo": [
+      "Draft the request to PandaDoc Sales/Support",
+      "Build the authorize URL and token exchange/refresh code",
+      "Wire the Composio auth config and session authConfigs",
+      "Implement state handling and 401-refresh logic"
+    ],
+    "youMustDo": [
+      "Purchase/upgrade to Enterprise and get Production API activated",
+      "Log in to the Developer Dashboard and create the application",
+      "Copy the client secret into Composio securely"
+    ]
+  },
+  "drafts": [
+    {
+      "title": "Production API access request",
+      "purpose": "Email/ticket to PandaDoc Sales, Support or CSM",
+      "content": "Hello, we are building [PRODUCT], an AI agent product that lets our users create and send PandaDoc documents. We need Production API access enabled on account [ACCOUNT EMAIL / WORKSPACE] so we can create an OAuth 2.0 application (authorization code flow) with scopes 'read write'. Redirect URI: https://backend.composio.dev/api/v1/auth-apps/add. Please tell us the plan required, the activation steps, and expected timeline. Thanks, [NAME]"
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Composio: custom vs managed app",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio"
+    },
+    {
+      "id": 2,
+      "title": "PandaDoc developer docs index (llms.txt)",
+      "url": "https://developers.pandadoc.com/llms.txt",
+      "kind": "official"
+    },
+    {
+      "id": 3,
+      "title": "PandaDoc: Create an application",
+      "url": "https://developers.pandadoc.com/reference/create-an-application.md",
+      "kind": "official"
+    },
+    {
+      "id": 4,
+      "title": "PandaDoc: Production API key",
+      "url": "https://developers.pandadoc.com/reference/production-api-key.md",
+      "kind": "official"
+    },
+    {
+      "id": 5,
+      "title": "PandaDoc: Create/refresh access token",
+      "url": "https://developers.pandadoc.com/reference/access-token.md",
+      "kind": "official"
+    },
+    {
+      "id": 6,
+      "title": "Probe: authorize endpoint",
+      "url": "https://app.pandadoc.com/oauth2/authorize",
+      "kind": "probe"
+    },
+    {
+      "id": 7,
+      "title": "Probe: Composio catalog lookup pandadoc",
+      "url": "https://docs.composio.dev/toolkits/pandadoc",
+      "kind": "probe"
+    },
+    {
+      "id": 8,
+      "title": "Probe: developers.pandadoc.com",
+      "url": "https://developers.pandadoc.com/",
+      "kind": "probe"
+    }
+  ],
+  "probes": [
+    {
+      "action": "composio_lookup 'pandadoc'",
+      "target": "Composio catalog",
+      "observed": "pandadoc: API_KEY only, no managed OAuth. pandadoc_mcp: DCR_OAUTH, default scopes read,write, no managed schemes.",
+      "conclusion": "No Composio-managed OAuth app for PandaDoc; own OAuth needs your own app, and the main toolkit may only support API key."
+    },
+    {
+      "action": "oauth_authorize_probe",
+      "target": "https://app.pandadoc.com/oauth2/authorize",
+      "observed": "302 to https://app.pandadoc.com/login/?next=... then 200 login page; no client error shown.",
+      "conclusion": "Endpoint is live; client validation happens after login."
+    },
+    {
+      "action": "http_probe",
+      "target": "https://developers.pandadoc.com/",
+      "observed": "200, PandaDoc for Developers docs site.",
+      "conclusion": "Docs are public; the dashboard itself requires login."
+    }
+  ],
+  "uncertainties": [
+    "Exact Developer Dashboard menu labels and OAuth application form fields were not visible in public docs.",
+    "Redirect URI rules (wildcards, localhost, number allowed) not confirmed.",
+    "Whether Enterprise is strictly required for OAuth apps vs only the production key, and activation timeline, are not published.",
+    "Whether Composio's pandadoc toolkit accepts a custom OAuth2 auth config is unconfirmed; the catalog lists API_KEY only.",
+    "Whether refresh tokens rotate and whether PKCE is supported is not documented.",
+    "The dashboard URL is inferred; verify after login."
+  ],
+  "slug": "pandadoc",
+  "logo": "https://www.google.com/s2/favicons?domain=www.pandadoc.com&sz=128",
+  "composio": null,
+  "meta": {
+    "generatedAt": "2026-10-28T12:54:01.197Z",
+    "model": "sonnet",
+    "durationMs": 110578,
+    "toolCalls": 9,
+    "costUsd": 0.1939242,
+    "query": "pandadoc.com"
+  },
+  "review": {
+    "status": "agent_generated",
+    "reviewedAt": null,
+    "summary": null,
+    "corrections": []
+  }
+}

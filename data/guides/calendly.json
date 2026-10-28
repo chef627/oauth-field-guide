@@ -1,0 +1,420 @@
+{
+  "appName": "Calendly",
+  "website": "https://calendly.com",
+  "summary": "Composio already provides a managed Calendly OAuth app, so you can connect users today without registering anything. Registering your own app is self-serve through a separate Calendly developer account, and I found no documented review step. The main gotcha is that Sandbox and Production are separate apps, Production needs an HTTPS redirect URI, and the client secret is shown only once.",
+  "verdict": {
+    "difficulty": "easy",
+    "difficultyReason": "Composio supplies a managed app, and a custom app is self-serve with no documented approval or review.",
+    "devReady": {
+      "estimate": "5 min with the Composio managed app; 20-40 min with your own Sandbox app",
+      "detail": "Managed: create a Composio session and connect your own Calendly account. Custom: create a Sandbox OAuth app in the Calendly developer portal, then paste its Client ID and Secret into a Composio auth config. Sandbox apps are for test data, not live customer data."
+    },
+    "productionReady": {
+      "estimate": "Same day (about 1 hour) as far as the docs show",
+      "detail": "Managed app: any user can connect right away, but the consent screen says Composio and quota is shared. Custom: create a separate Production app with an HTTPS redirect URI. No approval gate is documented in the pages I read. Confirm this with a real Production app.",
+      "approvalRequired": false
+    },
+    "handsOnEffort": "30-60 minutes for a custom app; near zero for managed"
+  },
+  "nextAction": "Connect your own Calendly account through a Composio session with no authConfigs set, which uses the managed app. If you need your own branding, sign up at https://developer.calendly.com with GitHub or Google.",
+  "accessPaths": [
+    {
+      "name": "Composio managed app",
+      "whenToUse": "Prototypes, internal tools, and anything that doesn't need your own branding.",
+      "reviewRequired": false,
+      "timeline": "Minutes",
+      "limits": "Consent screen shows Composio. Quota is shared across Composio users. Triggers poll at a 15-minute minimum."
+    },
+    {
+      "name": "Custom Calendly app (Sandbox)",
+      "whenToUse": "Developing and testing with your own app before going live.",
+      "reviewRequired": false,
+      "timeline": "20-40 min",
+      "limits": "Intended for test data. Localhost over HTTP is allowed as a redirect URI, though Composio's redirect is HTTPS anyway."
+    },
+    {
+      "name": "Custom Calendly app (Production)",
+      "whenToUse": "Your own branding, custom scopes and separate rate limits for real customers.",
+      "reviewRequired": false,
+      "timeline": "About 1 hour; no documented review",
+      "limits": "Redirect URI must be HTTPS. None else known."
+    }
+  ],
+  "prerequisites": [
+    {
+      "item": "Calendly developer account",
+      "detail": "Separate from a normal Calendly user account. Sign up at developer.calendly.com with GitHub or Google.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Calendly user account to test with",
+      "detail": "Any Calendly account works to connect through the managed app.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Composio account",
+      "detail": "Needed for the dashboard and API key.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Paid or Enterprise Calendly plan (some features)",
+      "detail": "Search results say activity_log:read needs Enterprise. This comes from a third-party summary, not an official page I read. Some API features may also depend on plan.",
+      "required": false,
+      "owner": "you"
+    }
+  ],
+  "phases": [
+    {
+      "title": "Use the managed app",
+      "goal": "A Calendly account is connected through Composio with no registration.",
+      "duration": "5-10 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create a session without authConfigs",
+          "detail": "Toolkits not listed in authConfigs keep using Composio managed auth. Start a Calendly connection and approve it with your Calendly account.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Register your own Sandbox app (optional)",
+      "goal": "An OAuth flow works with your own Calendly app.",
+      "duration": "20-40 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Sign up for a developer account",
+          "detail": "Use GitHub or Google. It is separate from your Calendly user account.",
+          "owner": "you",
+          "url": "https://developer.calendly.com",
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Create an OAuth application",
+          "detail": "Enter a name, choose kind Web, pick environment Sandbox, set the redirect URI to https://backend.composio.dev/api/v1/auth-apps/add, and select scopes.",
+          "owner": "agent_assisted",
+          "url": "https://developer.calendly.com/creating-an-oauth-app",
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Save the credentials immediately",
+          "detail": "Copy the Client ID, Client Secret and Webhook signing key. The secret and signing key cannot be viewed again.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Create a Composio auth config",
+          "detail": "Dashboard > Auth Configs > Create Auth Config > Calendly > OAuth2 > paste Client ID and Secret > Create. Copy the ac_... ID and pass it in authConfigs keyed by calendly.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            2
+          ]
+        },
+        {
+          "title": "Connect a test account",
+          "detail": "Run the flow and confirm tokens come back and an API call works.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "unverified",
+          "sourceIds": []
+        }
+      ]
+    },
+    {
+      "title": "Go live with your own app",
+      "goal": "Real users connect with your branding.",
+      "duration": "About 1 hour",
+      "waitTime": "None documented",
+      "steps": [
+        {
+          "title": "Create a separate Production app",
+          "detail": "The docs recommend creating a new Production app rather than reusing the Sandbox one. The redirect URI must be HTTPS. Request the minimum scopes you need.",
+          "owner": "you",
+          "url": "https://developer.calendly.com/creating-an-oauth-app",
+          "confidence": "documented",
+          "sourceIds": [
+            3,
+            4
+          ]
+        },
+        {
+          "title": "Swap credentials in the Composio auth config",
+          "detail": "Create a new auth config with the Production Client ID and Secret, then use its ac_ ID in sessions.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            2
+          ]
+        },
+        {
+          "title": "Test with a second Calendly account",
+          "detail": "Confirm a user outside your organization can connect, because no review is documented and I couldn't verify this.",
+          "owner": "you",
+          "url": null,
+          "confidence": "unverified",
+          "sourceIds": []
+        }
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "users:read",
+      "purpose": "Read the current user and organization info",
+      "sensitivity": "basic",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "scheduled_events:read",
+      "purpose": "List and read scheduled events and invitees",
+      "sensitivity": "basic",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "scheduled_events:write",
+      "purpose": "Create or cancel scheduled events",
+      "sensitivity": "sensitive",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "event_types:read",
+      "purpose": "Read event types",
+      "sensitivity": "basic",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "availability:read",
+      "purpose": "Read availability schedules",
+      "sensitivity": "basic",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "scheduling_links:write",
+      "purpose": "Create single-use scheduling links",
+      "sensitivity": "basic",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "webhooks:write",
+      "purpose": "Create webhook subscriptions",
+      "sensitivity": "sensitive",
+      "reviewNote": "No review documented"
+    },
+    {
+      "scope": "activity_log:read",
+      "purpose": "Read the organization activity log",
+      "sensitivity": "restricted",
+      "reviewNote": "Reported as Enterprise-plan only by a third-party summary; not confirmed on Calendly's own page"
+    }
+  ],
+  "blockers": [
+    {
+      "title": "New apps have no API access until scopes are granted",
+      "symptom": "API calls return permission errors after connecting.",
+      "fix": "Select the needed scopes on the app and have users reconnect. Existing installs may need to reauthorize to get new scopes.",
+      "confidence": "documented",
+      "sourceIds": [
+        4
+      ]
+    },
+    {
+      "title": "Client secret shown only once",
+      "symptom": "You can't find the secret after leaving the creation page.",
+      "fix": "Copy it at creation. If lost, create a new app or rotate the secret if the portal allows it.",
+      "confidence": "documented",
+      "sourceIds": [
+        3
+      ]
+    },
+    {
+      "title": "Production redirect URI must be HTTPS",
+      "symptom": "Redirect URI rejected on a Production app.",
+      "fix": "Use https://backend.composio.dev/api/v1/auth-apps/add.",
+      "confidence": "documented",
+      "sourceIds": [
+        3
+      ]
+    },
+    {
+      "title": "Sandbox app used for real users",
+      "symptom": "Real customers can't connect or data is test-only.",
+      "fix": "Create a separate Production app and update the Composio auth config.",
+      "confidence": "documented",
+      "sourceIds": [
+        3
+      ]
+    },
+    {
+      "title": "Enterprise-only scopes",
+      "symptom": "Scope like activity_log:read unavailable on non-Enterprise accounts.",
+      "fix": "Use an Enterprise Calendly organization, or drop the scope.",
+      "confidence": "reported",
+      "sourceIds": [
+        5
+      ]
+    }
+  ],
+  "technical": {
+    "consoleUrl": "https://developer.calendly.com",
+    "docsUrl": "https://developer.calendly.com/creating-an-oauth-app",
+    "authorizeUrl": "https://calendly.com/oauth/authorize",
+    "tokenUrl": "https://calendly.com/oauth/token",
+    "pkce": "S256 supported and recommended for web and native apps. Calendly does not enforce it for web apps.",
+    "refreshTokens": "Refresh token grant is supported, per the docs link. I could not confirm access token lifetime or rotation rules from the pages I read.",
+    "redirectUriRules": "Sandbox allows http://localhost. Production requires HTTPS. Use a specific redirect_uri. Number allowed and wildcard rules were not confirmed.",
+    "notes": "The docs say to POST the code to auth.calendly.com, but my discovery probe found the token endpoint at calendly.com/oauth/token (auth.calendly.com/oauth/authorize 301-redirects to calendly.com/oauth/authorize). The discovery document also advertises a registration_endpoint, which I did not use. Composio also has a separate calendly_mcp toolkit using dynamic client registration OAuth. A second issuer, login.calendly.com, exists and its metadata lists standard OIDC scopes, but I did not determine how it relates to the API apps."
+  },
+  "agentHelp": {
+    "canDo": [
+      "Create Composio sessions that use the managed Calendly app",
+      "Draft the Calendly app name, description and scope list",
+      "Build the auth config and session code with authConfigs",
+      "Test the connection and API calls after you connect"
+    ],
+    "youMustDo": [
+      "Sign up for the Calendly developer account",
+      "Copy and store the client secret at creation",
+      "Approve consent with your Calendly login",
+      "Decide Sandbox versus Production"
+    ]
+  },
+  "drafts": [
+    {
+      "title": "Calendly OAuth app description",
+      "purpose": "App name and description fields in the Calendly developer portal",
+      "content": "[APP NAME] connects to a user's Calendly account so an AI assistant can [PURPOSE: view upcoming meetings / book meetings / manage availability] on their behalf. We request only these scopes: [SCOPES]. Data is used only to serve the requesting user and is not sold or shared. Privacy policy: [URL]. Support: [EMAIL]."
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Composio catalog: Calendly (composio_lookup probe)",
+      "url": "https://docs.composio.dev/toolkits/calendly",
+      "kind": "probe"
+    },
+    {
+      "id": 2,
+      "title": "Composio: custom app vs managed app",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio"
+    },
+    {
+      "id": 3,
+      "title": "Calendly: Creating an OAuth app",
+      "url": "https://developer.calendly.com/creating-an-oauth-app",
+      "kind": "official"
+    },
+    {
+      "id": 4,
+      "title": "Calendly: Authorization scopes",
+      "url": "https://developer.calendly.com/docs/authentication/scopes",
+      "kind": "official"
+    },
+    {
+      "id": 5,
+      "title": "Search summary citing third-party vendor guides on Enterprise scopes (Frontegg, Scalekit)",
+      "url": "https://developers.frontegg.com/agen-for-work/connectors/marketplace/calendly",
+      "kind": "community"
+    },
+    {
+      "id": 6,
+      "title": "OIDC discovery probe: calendly.com",
+      "url": "https://calendly.com/.well-known/openid-configuration",
+      "kind": "probe"
+    },
+    {
+      "id": 7,
+      "title": "Authorize probe: auth.calendly.com/oauth/authorize",
+      "url": "https://auth.calendly.com/oauth/authorize",
+      "kind": "probe"
+    },
+    {
+      "id": 8,
+      "title": "HTTP probe: developer.calendly.com/create-a-developer-account (404)",
+      "url": "https://developer.calendly.com/create-a-developer-account",
+      "kind": "probe"
+    }
+  ],
+  "probes": [
+    {
+      "action": "composio_lookup calendly",
+      "target": "docs.composio.dev catalog",
+      "observed": "OAUTH2 is Composio-managed. Redirect URI https://backend.composio.dev/api/v1/auth-apps/add. Default scopes empty. A separate calendly_mcp toolkit uses DCR_OAUTH.",
+      "conclusion": "You can connect users without your own app."
+    },
+    {
+      "action": "oauth_discovery calendly.com",
+      "target": "calendly.com",
+      "observed": "OIDC metadata at calendly.com: authorize /oauth/authorize, token /oauth/token, PKCE S256, auth method none, registration_endpoint present. A second issuer at login.calendly.com also responds.",
+      "conclusion": "Endpoints are live. PKCE S256 is supported."
+    },
+    {
+      "action": "oauth_authorize_probe",
+      "target": "https://auth.calendly.com/oauth/authorize",
+      "observed": "301 to calendly.com/oauth/authorize, then 302 to calendly.com/app/login (200). It didn't show an invalid-client error.",
+      "conclusion": "The endpoint is live and sends unauthenticated users to login. It doesn't validate the client before login."
+    },
+    {
+      "action": "http_probe developer.calendly.com/create-a-developer-account",
+      "target": "developer.calendly.com",
+      "observed": "404 Page not found. The site mentions /llms.txt for a docs index.",
+      "conclusion": "That URL guess was wrong. The developer site itself is live, and my fetches of its other pages worked."
+    }
+  ],
+  "uncertainties": [
+    "I found no documented app review process, but I did not log into the developer portal. A real Production app is the only way to confirm that arbitrary users can connect.",
+    "Access token lifetime and refresh token rotation weren't on the pages I read. The Calendly FAQ would cover them.",
+    "The docs say to POST to auth.calendly.com for tokens, but discovery lists calendly.com/oauth/token. Composio handles this for you.",
+    "Which scopes need a paid or Enterprise plan is only reported by a third-party summary.",
+    "Whether the Production environment limits the number of users or imposes rate limits wasn't documented in the pages I read.",
+    "I did not search for Calendly policy changes in the last 12 months beyond one search. The scope catalog (23 scopes, including newer ones like meeting_recaps and contacts) suggests recent changes."
+  ],
+  "slug": "calendly",
+  "logo": "https://logos.composio.dev/api/calendly",
+  "composio": {
+    "slug": "calendly",
+    "composioManaged": true,
+    "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+    "defaultScopes": "",
+    "oauthSchemes": [
+      "OAUTH2"
+    ]
+  },
+  "meta": {
+    "generatedAt": "2026-10-28T12:58:55.321Z",
+    "model": "sonnet",
+    "durationMs": 125071,
+    "toolCalls": 8,
+    "costUsd": 0.2221451,
+    "query": "Calendly"
+  },
+  "review": {
+    "status": "agent_generated",
+    "reviewedAt": null,
+    "summary": null,
+    "corrections": []
+  }
+}

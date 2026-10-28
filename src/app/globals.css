@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ink: #1c1917;
+  --color-muted: #6b6560;
+  --color-line: #e7e3df;
+  --color-paper: #fbfaf8;
+  --color-card: #ffffff;
+  --color-accent: #3f3cbb;
+  --color-accent-soft: #eeedfb;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Small shared primitives that would otherwise be repeated as long class strings. */
+@layer components {
+  .card {
+    @apply rounded-xl border border-line bg-card;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium leading-4 whitespace-nowrap;
+  }
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-line bg-card px-3 py-1.5 text-sm font-medium text-ink transition hover:border-stone-400 disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#33309c] disabled:opacity-50;
+  }
+  .section-title {
+    @apply mb-3 text-xs font-semibold tracking-wider text-muted uppercase;
+  }
+  .prose-tight a {
+    @apply text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  details > *:not(summary) {
+    display: block !important;
+  }
+}

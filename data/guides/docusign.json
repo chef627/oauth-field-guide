@@ -1,0 +1,531 @@
+{
+  "appName": "DocuSign",
+  "website": "https://www.docusign.com",
+  "summary": "Composio does not provide a managed DocuSign OAuth app, so you must create an integration key (your OAuth client) in a free DocuSign developer (demo) account and give Composio the key and secret. The demo flow works in under an hour. Production is the hard part. The key has to pass DocuSign's automated \"go-live\" review (historically, your 20 most recent API calls in demo must succeed with no errors and no polling). It then gets promoted into a paid production DocuSign account (not a trial) where you are an admin. Biggest gotcha: demo keys and secrets only work against account-d.docusign.com. Until the key is promoted and you create a new production secret, real users on account.docusign.com cannot connect.",
+  "verdict": {
+    "difficulty": "moderate",
+    "difficultyReason": "Setting up in demo is self-serve and free, but before any real user can connect you need an automated go-live review and a paid, non-trial DocuSign production account where you are an admin.",
+    "devReady": {
+      "estimate": "30-60 min",
+      "detail": "Works in the DocuSign demo environment (account-d.docusign.com) with your free developer account. You can also connect any other demo-environment account. Envelopes are not legally binding, and real production users cannot sign in with this key yet."
+    },
+    "productionReady": {
+      "estimate": "1-3 days if you already have a paid DocuSign production account; longer if you need to buy one or upgrade to an API-capable plan",
+      "detail": "Make clean API calls in demo (historically 20 straight successful, non-polling calls; login and userinfo calls don't count). Then click Go-Live / Submit for review in Apps and Keys. Reports say the automated review finishes in minutes. Then sign in as an admin of a paid, non-trial production account to promote the key, create a NEW secret key in production, re-add the redirect URI, and point Composio at production. Once that's done, users from any DocuSign account can consent to your key with authorization code grant.",
+      "approvalRequired": true
+    },
+    "handsOnEffort": "2-4 hours (plus scripting 20+ clean demo API calls)"
+  },
+  "nextAction": "Sign up for a free DocuSign developer account at https://developers.docusign.com, then open https://admindemo.docusign.com/apps-and-keys and click \"Add App and Integration Key\".",
+  "accessPaths": [
+    {
+      "name": "Demo (developer sandbox) integration key",
+      "whenToUse": "Building and testing the Composio connection with your own or test accounts",
+      "reviewRequired": false,
+      "timeline": "30-60 min",
+      "limits": "Demo environment only (account-d.docusign.com and demo base URIs). Envelopes are not legally binding. Production users get errors."
+    },
+    {
+      "name": "Key promoted to your own production account (internal use)",
+      "whenToUse": "Your company's own DocuSign users connect through your agent",
+      "reviewRequired": true,
+      "timeline": "Same day to a few days after you have clean demo calls",
+      "limits": "Needs a paid, non-trial production account with an API-capable plan, and an admin to promote the key"
+    },
+    {
+      "name": "Promoted key used by external customers (ISV / public)",
+      "whenToUse": "Any DocuSign user from any account connects to your AI agent product",
+      "reviewRequired": true,
+      "timeline": "1-3 days after go-live prerequisites are met",
+      "limits": "Same go-live review. The plan on each customer's account must support the features you call. API rate limits apply per account (hourly limits; polling rules)."
+    },
+    {
+      "name": "DocuSign App Center listing (optional)",
+      "whenToUse": "Marketing/discovery in DocuSign's app directory",
+      "reviewRequired": true,
+      "timeline": "Weeks (partner process, not verified here)",
+      "limits": "Not needed for OAuth to work"
+    }
+  ],
+  "prerequisites": [
+    {
+      "item": "DocuSign developer (demo) account",
+      "detail": "Free. Sign up at developers.docusign.com. You get admin access to Apps and Keys at admindemo.docusign.com.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Paid DocuSign production account",
+      "detail": "Can't be a trial. The plan must support API integrations (third-party reports say Business Pro or higher; the error otherwise is 'These accounts don't support API integrations'). The person promoting the key must be an admin on it.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Clean API call history in demo",
+      "detail": "Historically, your 20 most recent API calls with the key must succeed. Login/userinfo calls don't count, and you must not poll the same envelope within 15 minutes.",
+      "required": true,
+      "owner": "agent_assisted"
+    },
+    {
+      "item": "Composio account",
+      "detail": "Needed to create a custom Auth Config with your integration key and secret",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Privacy policy / terms URLs",
+      "detail": "Not required by DocuSign for basic go-live (not seen in the docs we fetched), but good practice for the consent screen and any App Center listing",
+      "required": false,
+      "owner": "agent"
+    }
+  ],
+  "phases": [
+    {
+      "title": "Register the integration key (demo)",
+      "goal": "You have an integration key (client ID) and secret in the demo environment with Composio's redirect URI registered",
+      "duration": "15-20 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create a free developer account",
+          "detail": "Sign up at developers.docusign.com and confirm your email. This creates a demo account on account-d.docusign.com.",
+          "owner": "you",
+          "url": "https://developers.docusign.com",
+          "confidence": "reported",
+          "sourceIds": [
+            5,
+            6
+          ]
+        },
+        {
+          "title": "Add an app and integration key",
+          "detail": "Go to admindemo.docusign.com > Settings/Admin > Integrations > Apps and Keys. Click 'Add App and Integration Key', name it (e.g. '[YOUR PRODUCT] Agent'), and click Create App. Copy the Integration Key; this is your Client ID.",
+          "owner": "agent_assisted",
+          "url": "https://admindemo.docusign.com/apps-and-keys",
+          "confidence": "reported",
+          "sourceIds": [
+            6,
+            9
+          ]
+        },
+        {
+          "title": "Configure authorization code grant with a secret",
+          "detail": "Under Authentication, choose that your integration is able to keep secrets (confidential client / Authorization Code Grant). Click 'Add Secret Key' and copy it right away, because it is shown only once.",
+          "owner": "agent_assisted",
+          "url": "https://admindemo.docusign.com/apps-and-keys",
+          "confidence": "reported",
+          "sourceIds": [
+            6
+          ]
+        },
+        {
+          "title": "Register Composio's redirect URI",
+          "detail": "Under Additional settings > Redirect URIs, click Add URI and enter exactly: https://backend.composio.dev/api/v1/auth-apps/add. Then click Save.",
+          "owner": "agent_assisted",
+          "url": "https://admindemo.docusign.com/apps-and-keys",
+          "confidence": "reported",
+          "sourceIds": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Connect through Composio and test with your account",
+      "goal": "An OAuth flow completes with your demo account and Composio DocuSign tools run",
+      "duration": "20-40 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create a custom Auth Config in Composio",
+          "detail": "In dashboard.composio.dev, go to Auth Configs > Create Auth Config > DocuSign > OAuth2. Paste the Integration Key as Client ID and the Secret Key as Client Secret. Keep the scopes 'signature' (plus 'extended' if you want long-lived refresh; 'impersonation' is only needed for JWT). Click Create and copy the ac_... ID.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            1
+          ]
+        },
+        {
+          "title": "Make sure Composio targets the demo environment",
+          "detail": "Demo keys only work against https://account-d.docusign.com/oauth/auth and /oauth/token. If the Composio auth config has an environment or base URL field, set it to demo (account-d). Production uses account.docusign.com.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "tested",
+          "sourceIds": [
+            2,
+            3,
+            6
+          ]
+        },
+        {
+          "title": "Pass the auth config into your session",
+          "detail": "In your Composio session, set authConfigs: { docusign: 'ac_...' }. Start a connection, sign in with your demo account, and approve consent.",
+          "owner": "agent",
+          "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+          "confidence": "documented",
+          "sourceIds": [
+            1
+          ]
+        },
+        {
+          "title": "Generate clean API traffic for go-live",
+          "detail": "Run at least 20 consecutive successful calls (e.g. list envelopes, create a draft envelope, list templates, get account info). Don't hit the same envelope twice within 15 minutes, and avoid any 4xx/5xx errors. Check your call history in the API Dashboard of your developer account.",
+          "owner": "agent",
+          "url": null,
+          "confidence": "reported",
+          "sourceIds": [
+            5,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Go live and promote to production",
+      "goal": "The key exists in production with its own secret and the redirect URI, so any DocuSign user can connect",
+      "duration": "30-60 min",
+      "waitTime": "Reports say the automated review result appears within minutes (~20 min). Promotion is instant once you pass.",
+      "steps": [
+        {
+          "title": "Submit for go-live review",
+          "detail": "In demo Apps and Keys, open the key's Actions menu and choose Go-Live / 'Submit for review' (status changes once the call criteria are met). If it fails, fix the erroring calls and re-run 20 clean ones.",
+          "owner": "you",
+          "url": "https://admindemo.docusign.com/apps-and-keys",
+          "confidence": "reported",
+          "sourceIds": [
+            5,
+            7,
+            8
+          ]
+        },
+        {
+          "title": "Promote to a production account",
+          "detail": "Choose 'Select Go-Live account' and sign in as an admin of a paid, non-trial production account, then accept the terms. Turn off pop-up blockers first. The key is copied to production (it stays in demo too).",
+          "owner": "you",
+          "url": null,
+          "confidence": "reported",
+          "sourceIds": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "title": "Create a production secret and redirect URI",
+          "detail": "In admin.docusign.com > Apps and Keys, open the promoted key. Click Add Secret Key (demo secrets do not work in production) and add https://backend.composio.dev/api/v1/auth-apps/add under Redirect URIs. Then click Save.",
+          "owner": "agent_assisted",
+          "url": "https://admin.docusign.com",
+          "confidence": "reported",
+          "sourceIds": [
+            6
+          ]
+        },
+        {
+          "title": "Switch Composio to production",
+          "detail": "Create a new Composio Auth Config (or update the existing one) with the same Client ID, the production secret and the production environment (account.docusign.com). After login, read the user's base_uri from /oauth/userinfo, because API hosts vary per account (na1, na2, eu, etc.).",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "unverified",
+          "sourceIds": [
+            1,
+            3,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ongoing maintenance",
+      "goal": "Connections stay healthy and within API rules",
+      "duration": "Ongoing",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Use Connect webhooks instead of polling",
+          "detail": "DocuSign enforces polling limits (no repeated requests for the same envelope within 15 minutes) and hourly API limits. Use DocuSign Connect for status triggers.",
+          "owner": "agent",
+          "url": null,
+          "confidence": "reported",
+          "sourceIds": [
+            7
+          ]
+        },
+        {
+          "title": "Rotate secrets",
+          "detail": "You can add a second secret key before you delete the old one. Update Composio first.",
+          "owner": "agent_assisted",
+          "url": "https://admin.docusign.com",
+          "confidence": "unverified",
+          "sourceIds": [
+            6
+          ]
+        }
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "signature",
+      "purpose": "Core eSignature REST API access: create/send envelopes, read status, templates",
+      "sensitivity": "basic",
+      "reviewNote": "No separate review; covered by go-live"
+    },
+    {
+      "scope": "extended",
+      "purpose": "Extends refresh-token lifetime (reported ~30 days, refreshed on use)",
+      "sensitivity": "basic",
+      "reviewNote": "No review needed; recommended so agent connections don't expire"
+    },
+    {
+      "scope": "impersonation",
+      "purpose": "Lets the app act as a user via JWT grant (Composio default)",
+      "sensitivity": "sensitive",
+      "reviewNote": "Only meaningful for JWT; requires per-user or admin consent. Not needed for auth-code flow; consider dropping it"
+    },
+    {
+      "scope": "openid",
+      "purpose": "OIDC identity / userinfo",
+      "sensitivity": "basic",
+      "reviewNote": "No review needed"
+    },
+    {
+      "scope": "click.manage",
+      "purpose": "Manage DocuSign Click clickwraps",
+      "sensitivity": "basic",
+      "reviewNote": "Requires the Click product on the account plan"
+    },
+    {
+      "scope": "organization_read",
+      "purpose": "Read organization data via the Admin API",
+      "sensitivity": "sensitive",
+      "reviewNote": "Admin API scopes need an org admin to consent; only add if needed"
+    },
+    {
+      "scope": "user_write",
+      "purpose": "Create/update users via the Admin API",
+      "sensitivity": "restricted",
+      "reviewNote": "Admin-level; org admin consent required"
+    }
+  ],
+  "blockers": [
+    {
+      "title": "Go-live review fails on errored calls",
+      "symptom": "Review fails; staff point to a 404 or other error among the last 20 calls",
+      "fix": "Fix the endpoint (e.g. 'brands' not 'brand'), then re-run 20 consecutive successful, non-login calls before resubmitting",
+      "confidence": "reported",
+      "sourceIds": [
+        8,
+        7
+      ]
+    },
+    {
+      "title": "Polling violation",
+      "symptom": "Go-live review fails even though all calls succeeded",
+      "fix": "Don't request the same envelope within 15 minutes; cache results; use Connect webhooks",
+      "confidence": "reported",
+      "sourceIds": [
+        7
+      ]
+    },
+    {
+      "title": "Production account not eligible",
+      "symptom": "'These accounts don't support API integrations' or a trial account can't be selected during promotion",
+      "fix": "Use a paid, non-trial production account on an API-capable plan, and sign in as its admin. Contact DocuSign sales/support to upgrade",
+      "confidence": "reported",
+      "sourceIds": [
+        6,
+        7
+      ]
+    },
+    {
+      "title": "Demo key used against production",
+      "symptom": "'The client id provided is not registered with Docusign' when users sign in on account.docusign.com",
+      "fix": "Promote the key via go-live, then use account.docusign.com endpoints with the new production secret",
+      "confidence": "reported",
+      "sourceIds": [
+        6
+      ]
+    },
+    {
+      "title": "Demo secret doesn't work in production",
+      "symptom": "invalid_client at the production token endpoint",
+      "fix": "Create a new Secret Key in admin.docusign.com Apps and Keys and update Composio",
+      "confidence": "reported",
+      "sourceIds": [
+        6
+      ]
+    },
+    {
+      "title": "Promoted key missing in production",
+      "symptom": "Key doesn't show up in production Apps and Keys after go-live",
+      "fix": "Check Admin > Apps and Keys in each production account you control. Open a DocuSign support case to find which account holds the key",
+      "confidence": "reported",
+      "sourceIds": [
+        9
+      ]
+    }
+  ],
+  "technical": {
+    "consoleUrl": "https://admindemo.docusign.com/apps-and-keys (demo); https://admin.docusign.com (production)",
+    "docsUrl": "https://developers.docusign.com/platform/auth/authcode/",
+    "authorizeUrl": "https://account-d.docusign.com/oauth/auth (demo); https://account.docusign.com/oauth/auth (production)",
+    "tokenUrl": "https://account-d.docusign.com/oauth/token (demo); https://account.docusign.com/oauth/token (production)",
+    "pkce": "DocuSign supports PKCE for public clients (reported). Discovery metadata does not advertise code_challenge_methods. Confidential clients with a secret (as Composio uses) don't need it.",
+    "refreshTokens": "Access token ~8 hours (expires_in 28800). Refresh token ~30 days with the 'extended' scope; reported to roll forward as you use it. Store the new refresh token returned on each refresh.",
+    "redirectUriRules": "Each URI must be registered under the key's Redirect URIs and match exactly. Multiple URIs allowed. Production keys keep their own settings after promotion, so verify the URI there.",
+    "notes": "Two separate environments (demo account-d vs production account), with different secrets. After token exchange, call /oauth/userinfo to get the account's base_uri (e.g. https://na3.docusign.net); API host differs per account and region. Grant types in discovery: authorization_code, implicit; JWT is also supported for service integrations. Token endpoint auth: client_secret_basic or client_secret_post. No dynamic client registration advertised."
+  },
+  "agentHelp": {
+    "canDo": [
+      "Fill out the Apps and Keys form via browser automation while you are logged in",
+      "Configure the Composio Auth Config and session authConfigs",
+      "Write and run a script that makes 20+ clean, non-polling eSignature API calls in demo for go-live",
+      "Read the API Dashboard / call logs and fix erroring calls before resubmitting",
+      "Handle base_uri lookup via /oauth/userinfo and the switch between demo and production endpoints",
+      "Draft go-live and support-ticket text"
+    ],
+    "youMustDo": [
+      "Create the DocuSign developer account and sign in",
+      "Buy or confirm a paid, non-trial production plan that supports APIs",
+      "Click Submit for review and promote the key while signed in as a production admin (accept the terms)",
+      "Copy secrets (shown once) and store them safely",
+      "Contact DocuSign support/sales if promotion or plan eligibility fails"
+    ]
+  },
+  "drafts": [
+    {
+      "title": "DocuSign support ticket: go-live failure",
+      "purpose": "DocuSign Developer Support case (support.docusign.com) if the review or promotion fails",
+      "content": "Subject: Go-live review failed for integration key [INTEGRATION_KEY]\n\nHello,\n\nOur integration key [INTEGRATION_KEY] (app name: [APP_NAME]) in demo account [DEMO_ACCOUNT_ID] failed go-live review on [DATE].\n\nIntegration: an AI agent product that lets our users connect their own DocuSign accounts via OAuth 2.0 Authorization Code Grant (confidential client) through Composio. Redirect URI: https://backend.composio.dev/api/v1/auth-apps/add. Scopes: signature extended.\n\nAPI calls used: [LIST e.g. GET /accounts/{id}/envelopes, POST /accounts/{id}/envelopes (status=created), GET /accounts/{id}/templates]. No envelope is requested more than once in 15 minutes.\n\nTarget production account: [PROD_ACCOUNT_ID], plan [PLAN_NAME]. I am an admin on it.\n\nCould you tell us which call or criterion failed, and confirm the production account is eligible for promotion?\n\nThanks,\n[NAME], [COMPANY]"
+    },
+    {
+      "title": "App description for Apps and Keys / consent",
+      "purpose": "App name and description fields in Apps and Keys",
+      "content": "[PRODUCT_NAME] lets you work with your DocuSign agreements through an AI assistant. With your permission, it can prepare and send envelopes, check signing status, and find templates in your DocuSign account. It acts only when you ask it to. You can revoke access at any time from your DocuSign profile under Connected Apps. Privacy policy: [PRIVACY_URL]. Support: [SUPPORT_EMAIL]."
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Composio: Custom app vs managed app",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio"
+    },
+    {
+      "id": 2,
+      "title": "Probe: OIDC discovery account-d / account.docusign.com",
+      "url": "https://account-d.docusign.com/.well-known/openid-configuration",
+      "kind": "probe"
+    },
+    {
+      "id": 3,
+      "title": "Probe: authorize endpoint with unregistered client",
+      "url": "https://account-d.docusign.com/oauth/auth",
+      "kind": "probe"
+    },
+    {
+      "id": 4,
+      "title": "Probe: demo Apps and Keys console",
+      "url": "https://admindemo.docusign.com/apps-and-keys",
+      "kind": "probe"
+    },
+    {
+      "id": 5,
+      "title": "Databuzz: DocuSign Integration Go Live Process",
+      "url": "https://support.databuzz.com.au/article/520-docusign-integration-go-live-process",
+      "kind": "community"
+    },
+    {
+      "id": 6,
+      "title": "Frontegg: DocuSign connector setup and go-live",
+      "url": "https://developers.frontegg.com/agen-for-work/connectors/marketplace/docusign",
+      "kind": "community"
+    },
+    {
+      "id": 7,
+      "title": "DocuSign blog: From the Trenches – Go-live failures",
+      "url": "https://www.docusign.com/blog/developers/the-trenches-go-live-failures",
+      "kind": "official"
+    },
+    {
+      "id": 8,
+      "title": "DocuSign Community: How to make 20 successful API calls before review to go live",
+      "url": "https://community.docusign.com/go-live-70/how-to-make-20-successfull-api-calls-before-review-to-go-live-4096",
+      "kind": "community"
+    },
+    {
+      "id": 9,
+      "title": "DocuSign Community: missing integration key after go-live",
+      "url": "https://community.docusign.com/go-live-70/assistance-needed-issues-with-go-live-process-and-missing-integration-key-in-docusign-22399",
+      "kind": "community"
+    },
+    {
+      "id": 10,
+      "title": "Databuzz: Authorization Code Grant OAuth Flow (token lifetimes)",
+      "url": "https://support.databuzz.com.au/article/512-authorization-code-grant-oauth-flow",
+      "kind": "community"
+    },
+    {
+      "id": 11,
+      "title": "CMiC: DocuSign Go-Live Process",
+      "url": "https://docs.cmicglobal.com/portal/Content/E_Reference_Material/DocuSign_Integration/Reference/Authentication/Go-Live_Process.htm",
+      "kind": "community"
+    }
+  ],
+  "probes": [
+    {
+      "action": "OIDC/OAuth discovery",
+      "target": "account-d.docusign.com, account.docusign.com",
+      "observed": "Both serve /.well-known/openid-configuration. authorize /oauth/auth, token /oauth/token, grants authorization_code+implicit, auth methods client_secret_basic/post, scopes include signature, organization_read, user_write. No registration_endpoint, no PKCE methods advertised.",
+      "conclusion": "Endpoints confirmed for both environments. No dynamic registration, so you must create the key manually."
+    },
+    {
+      "action": "Authorize request with unregistered client_id and Composio redirect URI",
+      "target": "https://account-d.docusign.com/oauth/auth",
+      "observed": "HTTP 200 'Docusign' page; no redirect back to Composio",
+      "conclusion": "Endpoint is live. DocuSign shows its own page (an error or login) rather than redirecting, so unregistered or mismatched redirect URIs don't leak back."
+    },
+    {
+      "action": "HTTP GET of the demo console",
+      "target": "https://admindemo.docusign.com/apps-and-keys",
+      "observed": "200, title 'Home Page - Intelligent Agreement Management' (login/app shell)",
+      "conclusion": "Console exists and requires a DocuSign login."
+    }
+  ],
+  "uncertainties": [
+    "Official developers.docusign.com pages are rendered client-side and could not be fetched. Go-live criteria come from a DocuSign blog plus third-party guides.",
+    "Sources conflict on whether the '20 successful API calls' requirement still applies. Frontegg says promotion is now automatic for most integration types. Assume you need clean calls and confirm in your Apps and Keys UI.",
+    "The exact production plan tier needed (reported 'Business Pro or higher' / API plan) is not confirmed by DocuSign docs.",
+    "Whether Composio's DocuSign toolkit lets you choose demo vs production endpoints, and how it handles per-account base_uri, is unverified. Check the Auth Config fields.",
+    "Whether requesting the 'impersonation' scope in the auth-code flow causes extra consent friction is not tested.",
+    "Token lifetimes (8h access, ~30-day refresh with 'extended') come from third-party sources.",
+    "Review timing (~20 minutes) is reported, not documented."
+  ],
+  "slug": "docusign",
+  "logo": "https://logos.composio.dev/api/docusign",
+  "composio": {
+    "slug": "docusign",
+    "composioManaged": false,
+    "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+    "defaultScopes": "signature,impersonation",
+    "oauthSchemes": [
+      "OAUTH2"
+    ]
+  },
+  "meta": {
+    "generatedAt": "2026-10-28T12:51:29.941Z",
+    "model": "opus",
+    "durationMs": 141641,
+    "toolCalls": 13,
+    "costUsd": 0.3819511,
+    "query": "docusign"
+  },
+  "review": {
+    "status": "agent_generated",
+    "reviewedAt": null,
+    "summary": null,
+    "corrections": []
+  }
+}

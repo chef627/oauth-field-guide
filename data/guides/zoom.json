@@ -1,0 +1,563 @@
+{
+  "appName": "Zoom",
+  "website": "https://zoom.us",
+  "summary": "Composio already runs a managed Zoom OAuth app, so you can connect any Zoom user today with no registration of your own. A custom Zoom \"General app\" takes about 30 minutes to create on the Zoom App Marketplace and works right away for users inside your own Zoom account. The biggest catch: before users outside your Zoom account can connect, the app must pass Zoom's Marketplace review (as Public or Unlisted). That review covers functionality, scope minimization and an OWASP-based security test, and developers report it takes 2-6+ weeks. The only shortcut is a \"Beta Test\" URL. Zoom must approve it, it needs security paperwork, and it expires after 4-12 weeks.",
+  "verdict": {
+    "difficulty": "hard",
+    "difficultyReason": "Creating the app is self-serve, but any custom app that users outside your Zoom account can install must pass a mandatory Marketplace review with a security audit, which developers report takes weeks and several rejection rounds (Composio's managed app avoids this).",
+    "devReady": {
+      "estimate": "15-30 min",
+      "detail": "Create a General app, set Composio's redirect URI, add scopes, and authorize with 'Add App Now' on the Local Test page. With development credentials, only users in your own Zoom account can authorize. For a private user-managed app Zoom states a cap of 100 additions (10 for account-level apps)."
+    },
+    "productionReady": {
+      "estimate": "0 days with Composio's managed app; 2-6+ weeks for your own app (Marketplace review, often several rounds)",
+      "detail": "For your own branded app: complete the Production tab (listing, Technical Design, security info, privacy policy, terms, support and docs URLs, test plan, reviewer credentials) and submit for review as Public or Unlisted. Zoom gives no fixed timeline. One developer reports 20 days and 4 rejection rounds; forum threads report 6+ weeks with no reply. The interim option is a Beta Test authorization URL for a limited number of outside users. Zoom must approve it (reply within 3-4 business days), it needs SSDLC, SAST/DAST and policy documents, and it is valid 4 weeks, extendable to 12.",
+      "approvalRequired": true
+    },
+    "handsOnEffort": "30 min for dev; 1-3 days of prep (listing, test plan, technical design, security docs) for Marketplace submission, plus fix rounds"
+  },
+  "nextAction": "Connect a Zoom account through Composio's managed Zoom app now (toolkit slug \"zoom\", no auth config needed). If you need your own branding or scopes, open https://marketplace.zoom.us/develop/create, choose General app > Create, and paste https://backend.composio.dev/api/v1/auth-apps/add as the OAuth Redirect URL and in the OAuth allow list.",
+  "accessPaths": [
+    {
+      "name": "Composio managed app",
+      "whenToUse": "Prototypes, internal tools, or any product that is fine with 'Composio' on the consent screen and default scopes",
+      "reviewRequired": false,
+      "timeline": "Immediate",
+      "limits": "Consent screen shows Composio; default scopes only; quota shared with all Composio users; triggers poll every 15 minutes at minimum"
+    },
+    {
+      "name": "Private (unpublished) General app, development credentials",
+      "whenToUse": "Testing your own app, or internal use by members of your own Zoom account",
+      "reviewRequired": false,
+      "timeline": "15-30 min",
+      "limits": "Only members of the developer's Zoom account can authorize. Zoom states caps of 10 additions for account-level and 100 for user-level private apps"
+    },
+    {
+      "name": "Beta Test authorization URL",
+      "whenToUse": "Pilot with a limited number of external customers before Marketplace approval",
+      "reviewRequired": true,
+      "timeline": "Zoom replies within 3-4 business days; the URL is valid 4 weeks, with up to two 4-week extensions",
+      "limits": "Limited number of outside users; needs SSDLC, SAST/DAST and policy documents; you may not publicize the app or use Zoom branding; after the URL expires, new users cannot install"
+    },
+    {
+      "name": "Published app (Public or Unlisted) on Zoom App Marketplace",
+      "whenToUse": "Production: any Zoom user or account can connect your own branded app",
+      "reviewRequired": true,
+      "timeline": "2-6+ weeks reported, often with several rejection rounds",
+      "limits": "Standard Zoom API rate limits; refresh tokens expire after 90 days"
+    }
+  ],
+  "prerequisites": [
+    {
+      "item": "Zoom account to sign in to the Marketplace as a developer",
+      "detail": "Any Zoom account can sign in at marketplace.zoom.us and build apps. Admin-managed apps need an account admin to install them.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Decide user-managed vs admin-managed",
+      "detail": "For an AI agent where each user connects their own Zoom, pick User-managed. Admin-managed means the account admin installs the app, and it can then reach data for all users on the account.",
+      "required": true,
+      "owner": "agent"
+    },
+    {
+      "item": "Privacy policy, terms of use, support URL, documentation URL",
+      "detail": "Required for Marketplace publication (Developer Agreement), and the privacy policy is required for a Beta URL request.",
+      "required": false,
+      "owner": "agent_assisted"
+    },
+    {
+      "item": "Reviewer test account and test plan",
+      "detail": "Reviewers need working email/password credentials for your product (an SSO-only login has been rejected) and a step-by-step test plan that exercises every scope.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Security documentation (for Beta URL sharing)",
+      "detail": "SSDLC documentation, SAST and DAST scan output (screenshots or raw scanner output), privacy policy, and 3 of: pen-test summary, security policy, incident response policy, vulnerability management, infrastructure/dependency management. Your app must support TLS 1.2+.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Listing assets",
+      "detail": "App icon, description, and several screenshots of the real user experience (reviewers have rejected listings for having too few).",
+      "required": false,
+      "owner": "agent_assisted"
+    }
+  ],
+  "phases": [
+    {
+      "title": "Register the app",
+      "goal": "A General app exists with client ID and secret and Composio's redirect URI allowed",
+      "duration": "10-15 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create a General app",
+          "detail": "Sign in at marketplace.zoom.us. Go to Developers > Created Apps, click + next to Developer > Build an app > General app > Create. Older docs call this type 'OAuth app'.",
+          "owner": "you",
+          "url": "https://marketplace.zoom.us/develop/create",
+          "confidence": "documented",
+          "sourceIds": [
+            4,
+            5
+          ]
+        },
+        {
+          "title": "Choose User-managed",
+          "detail": "On Basic Info > 'Select how the app is managed', pick User-managed so each end user authorizes their own data. If you change this later, recheck your scopes.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            4
+          ]
+        },
+        {
+          "title": "Set redirect URL and allow list",
+          "detail": "In Basic Info > OAuth Information, set OAuth Redirect URL = https://backend.composio.dev/api/v1/auth-apps/add. Add the same URL to OAuth allow lists. Strict Mode URL is optional but recommended. Zoom requires HTTPS for non-PKCE apps. Do the same for the production credentials, and keep localhost out of production.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            3,
+            4,
+            8
+          ]
+        },
+        {
+          "title": "Copy development Client ID and Client Secret",
+          "detail": "Basic Info > App Credentials. There are separate Development and Production credential sets, and production credentials only work once the app is published.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Configure & test with your own account",
+      "goal": "An OAuth flow through Composio completes for your own Zoom user",
+      "duration": "15 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Add only the scopes you use",
+          "detail": "On the Scopes page, click Add Scopes and pick granular scopes (e.g. meeting:read:list_meetings, meeting:write:meeting, cloud_recording:read:list_recording_files, user:read:user). Fill in a Scope Description for each one. Reviewers reject unused scopes.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            4,
+            6
+          ]
+        },
+        {
+          "title": "Create Composio auth config",
+          "detail": "At dashboard.composio.dev go to Auth Configs > Create Auth Config > Zoom > OAuth2. Paste the Client ID and Secret, enter the same scopes, then Create and copy the ac_... ID. Pass it in your session as authConfigs: { zoom: 'ac_...' }.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            10
+          ]
+        },
+        {
+          "title": "Authorize via Local Test or Composio connect link",
+          "detail": "Use Local Test > Add App Now > Allow, or start a Composio connection. Only users in your Zoom account can authorize development credentials. To share with teammates, use Local Test > Authorization URL > Generate.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            4,
+            5
+          ]
+        },
+        {
+          "title": "Verify token refresh",
+          "detail": "Access tokens last 1 hour. Each refresh returns a NEW refresh token, and the old one stops working. Composio handles this; if you call Zoom directly, always store the newest refresh token.",
+          "owner": "agent",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Go live: Marketplace review (Public or Unlisted)",
+      "goal": "Any Zoom user outside your account can install your branded app",
+      "duration": "1-3 days prep, plus fixes per round",
+      "waitTime": "No official SLA; 2-6+ weeks reported, with several rounds",
+      "steps": [
+        {
+          "title": "(Optional) Request a Beta Test URL for pilots",
+          "detail": "Production tab > Beta Test > Share App > Request to Share. You must complete Technical Design and upload the security documents first. Zoom replies within 3-4 business days. The URL is valid 4 weeks, extendable twice. Questions go to integration.testers@zoom.us.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            5
+          ]
+        },
+        {
+          "title": "Complete the Production tab",
+          "detail": "Fill in the listing (name, descriptions, icon, plenty of real screenshots), privacy, terms, support and documentation URLs, Technical Design (architecture, security controls, how you use Zoom data), production redirect and allow list, and scopes.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            6,
+            7
+          ]
+        },
+        {
+          "title": "Prepare reviewer credentials and test plan",
+          "detail": "Give reviewers an email/password login (not SSO-only), plus a click-by-click test plan that exercises every scope. Put your target launch date in the release notes.",
+          "owner": "you",
+          "url": null,
+          "confidence": "reported",
+          "sourceIds": [
+            7,
+            9
+          ]
+        },
+        {
+          "title": "Submit, then fix and resubmit",
+          "detail": "Review phases: completeness and branding, functionality and compliance, then a security test (OWASP Top 10, least privilege, scanning). Rejections arrive as a report with action items. Fix all of them and resubmit.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            6
+          ]
+        },
+        {
+          "title": "Switch Composio to production credentials",
+          "detail": "After approval, update the Composio auth config with the Production Client ID and Secret.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "unverified",
+          "sourceIds": [
+            4,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ongoing maintenance",
+      "goal": "Connections keep working and changes don't break approval",
+      "duration": "Ongoing",
+      "waitTime": "Re-review for scope or listing changes",
+      "steps": [
+        {
+          "title": "Handle 90-day refresh expiry",
+          "detail": "Refresh tokens expire after 90 days, so a user who stays inactive that long must reconnect. Detect invalid_grant and ask the user to re-authorize.",
+          "owner": "agent",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Re-submit when adding scopes",
+          "detail": "Changing scopes on a published app means submitting an updated version for review. Test changes with the Development version via Local Test first.",
+          "owner": "you",
+          "url": null,
+          "confidence": "unverified",
+          "sourceIds": [
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "meeting:read:list_meetings",
+      "purpose": "List a user's meetings",
+      "sensitivity": "basic",
+      "reviewNote": "Must be exercised in your test plan, or reviewers will flag it as unused"
+    },
+    {
+      "scope": "meeting:write:meeting",
+      "purpose": "Create meetings on the user's behalf",
+      "sensitivity": "sensitive",
+      "reviewNote": "Write scope; justify it clearly in Scope Description"
+    },
+    {
+      "scope": "meeting:read:summary",
+      "purpose": "Read AI Companion meeting summaries",
+      "sensitivity": "sensitive",
+      "reviewNote": "Content data; explain how you store and handle it in Technical Design"
+    },
+    {
+      "scope": "cloud_recording:read:list_recording_files",
+      "purpose": "Access recording files for a meeting",
+      "sensitivity": "sensitive",
+      "reviewNote": "Recording content; reviewers check data handling"
+    },
+    {
+      "scope": "cloud_recording:read:meeting_transcript",
+      "purpose": "Read meeting transcripts",
+      "sensitivity": "sensitive",
+      "reviewNote": "Reported flagged as unused when no matching call was made; map it to the exact endpoint"
+    },
+    {
+      "scope": "cloud_recording:read:list_user_recordings",
+      "purpose": "List all recordings for a user",
+      "sensitivity": "sensitive",
+      "reviewNote": "Reported rejected when the app listed recordings by meeting ID instead; scopes map to specific endpoints"
+    },
+    {
+      "scope": "user:read:user",
+      "purpose": "Read the connected user's profile",
+      "sensitivity": "basic",
+      "reviewNote": "No special review beyond the minimal-scope check"
+    },
+    {
+      "scope": "archiving:read:list_archived_files",
+      "purpose": "Read archived meeting files (compliance archiving)",
+      "sensitivity": "restricted",
+      "reviewNote": "Usually admin-level data; expect close scrutiny; drop it unless needed"
+    }
+  ],
+  "blockers": [
+    {
+      "title": "External users can't authorize an unpublished app",
+      "symptom": "Users outside your Zoom account can't install the app or get an error with the development authorization URL",
+      "fix": "Use Composio's managed app, request a Beta Test URL, or publish via Marketplace review (Public or Unlisted).",
+      "confidence": "documented",
+      "sourceIds": [
+        5,
+        4
+      ]
+    },
+    {
+      "title": "Invalid client_id",
+      "symptom": "JSON on zoom.us/oauth/signin: {\"errorCode\":4702,\"errorMessage\":\"Invalid client_id: ...\"}",
+      "fix": "Check the client ID, and don't mix the development and production sets. Production credentials only work after publishing.",
+      "confidence": "tested",
+      "sourceIds": [
+        2
+      ]
+    },
+    {
+      "title": "Redirect URI rejected",
+      "symptom": "'Invalid redirect: <uri>' error during authorization or token exchange",
+      "fix": "Add https://backend.composio.dev/api/v1/auth-apps/add both as the OAuth Redirect URL and in the OAuth allow list, for both dev and prod credentials.",
+      "confidence": "documented",
+      "sourceIds": [
+        3,
+        4
+      ]
+    },
+    {
+      "title": "Review rejected for unused scopes",
+      "symptom": "Reviewer report lists scopes with no matching API calls",
+      "fix": "Remove unused scopes (Composio's default list is broad), or extend the test plan so each scope gets exercised.",
+      "confidence": "reported",
+      "sourceIds": [
+        7,
+        6
+      ]
+    },
+    {
+      "title": "Reviewer can't log in",
+      "symptom": "Rejection email like 'Account Credentials - CREATE'",
+      "fix": "Give reviewers a dedicated email/password account for your product.",
+      "confidence": "reported",
+      "sourceIds": [
+        7
+      ]
+    },
+    {
+      "title": "Review stalls for weeks",
+      "symptom": "No feedback after submission",
+      "fix": "Put your launch date in the release notes and follow up on devforum.zoom.us. Zoom doesn't guarantee expedited review. Use the managed app or a Beta URL in the meantime.",
+      "confidence": "reported",
+      "sourceIds": [
+        9
+      ]
+    },
+    {
+      "title": "Connections die after refresh",
+      "symptom": "invalid_grant on refresh",
+      "fix": "Zoom rotates refresh tokens and they expire after 90 days. Always save the newest refresh token, and ask the user to reconnect if it has expired.",
+      "confidence": "documented",
+      "sourceIds": [
+        3
+      ]
+    }
+  ],
+  "technical": {
+    "consoleUrl": "https://marketplace.zoom.us/develop/create",
+    "docsUrl": "https://developers.zoom.us/docs/integrations/oauth/",
+    "authorizeUrl": "https://zoom.us/oauth/authorize",
+    "tokenUrl": "https://zoom.us/oauth/token",
+    "pkce": "Supported (plain and S256 per discovery). Public clients ('Use Public Client OAuth') must use S256 and skip the secret. Composio uses a confidential client with client_secret_basic/post.",
+    "refreshTokens": "Access token lasts 1 hour (expires_in 3600). Refresh tokens expire after 90 days and rotate: each refresh returns a new refresh token, so always use the latest one.",
+    "redirectUriRules": "redirect_uri must match the registered OAuth Redirect URL and also appear in the OAuth allow list (full URL or base domain). Optional Strict Mode requires an exact match. HTTPS is required for non-PKCE, non-native apps. Loopback (127.0.0.1, not localhost) is allowed only for PKCE/native apps, and the port is ignored. Development and production credentials have separate redirect settings.",
+    "notes": "Use the General app type (older 'OAuth app'). The app is either user-managed (per-user data) or admin-managed (account-wide). Zoom uses granular scopes such as meeting:read:list_meetings. Discovery at https://zoom.us/.well-known/openid-configuration also advertises device_code and jwt-bearer grants. Revoke endpoint: https://zoom.us/oauth/revoke. Server-to-Server OAuth apps exist but are for your own account only and are not suitable for end-user connections."
+  },
+  "agentHelp": {
+    "canDo": [
+      "Pick a minimal scope set that matches the tools your agent actually calls",
+      "Write Scope Descriptions, Technical Design text, listing copy and the reviewer test plan",
+      "Generate privacy policy, terms and support page drafts",
+      "Build and test the authorize URL, and debug redirect and token errors",
+      "Fill in the Marketplace build-flow forms via browser automation while you are logged in",
+      "Create the Composio auth config and wire authConfigs into your session code"
+    ],
+    "youMustDo": [
+      "Sign in to the Zoom Marketplace and Composio dashboard",
+      "Accept Zoom developer agreements and submit for review",
+      "Provide reviewer test credentials for your product",
+      "Produce security evidence (SSDLC, SAST/DAST scans, policies) for a Beta URL request",
+      "Respond to reviewer feedback and resubmit"
+    ]
+  },
+  "drafts": [
+    {
+      "title": "Scope descriptions",
+      "purpose": "Scopes page > Scope Description for each scope",
+      "content": "meeting:read:list_meetings: [APP_NAME] lists the user's upcoming and past meetings so the user can ask the assistant things like 'what meetings do I have tomorrow'. Called from GET /users/me/meetings when the user makes such a request.\nmeeting:write:meeting: Creates a meeting only when the user explicitly asks the assistant to schedule one. Called via POST /users/me/meetings.\ncloud_recording:read:list_recording_files: Fetches recording files for a specific meeting the user selects, so the assistant can summarize it. Called via GET /meetings/{meetingId}/recordings.\nuser:read:user: Reads the connected user's name, email and timezone to show which account is connected and to schedule meetings in the right timezone.\nData handling: tokens are encrypted at rest by our auth provider (Composio). Meeting content is processed only to answer the user's request and is [RETENTION_POLICY]."
+    },
+    {
+      "title": "Reviewer test plan",
+      "purpose": "Production tab > test plan / release notes",
+      "content": "Target launch date: [DATE]\nTest account: [REVIEWER_EMAIL] / [PASSWORD] (email/password login; no SSO needed)\n1. Go to [APP_URL] and sign in with the test account.\n2. Open Settings > Integrations and click 'Connect Zoom'. Approve the Zoom consent screen.\n3. In the chat, type 'List my meetings this week' (exercises meeting:read:list_meetings and user:read:user).\n4. Type 'Schedule a 30-minute meeting tomorrow at 10am called Review Test' and confirm. Then check the Zoom web portal (meeting:write:meeting).\n5. Record a short cloud meeting, wait for processing, and type 'Summarize my last recorded meeting' (cloud_recording:read:list_recording_files).\n6. Uninstall: Settings > Integrations > Disconnect Zoom, or remove the app from the Zoom Marketplace > Manage > Added Apps. We handle the deauthorization event by deleting the stored tokens and data.\nSupport contact: [SUPPORT_EMAIL]"
+    },
+    {
+      "title": "Short app description",
+      "purpose": "Marketplace listing short/long description",
+      "content": "[APP_NAME] is an AI assistant that works with your Zoom account. Ask it to find your meetings, schedule new ones, and summarize cloud recordings and transcripts in plain language. [APP_NAME] reads and writes Zoom data only when you ask it to, and you can disconnect at any time from Settings or the Zoom App Marketplace. Requires a Zoom account; cloud recording features require a Zoom plan with cloud recording."
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Zoom OIDC discovery (probe)",
+      "url": "https://zoom.us/.well-known/openid-configuration",
+      "kind": "probe"
+    },
+    {
+      "id": 2,
+      "title": "Zoom authorize endpoint probe",
+      "url": "https://zoom.us/oauth/authorize",
+      "kind": "probe"
+    },
+    {
+      "id": 3,
+      "title": "Zoom OAuth 2.0 docs",
+      "url": "https://developers.zoom.us/docs/integrations/oauth/",
+      "kind": "official"
+    },
+    {
+      "id": 4,
+      "title": "Select general app features (create OAuth apps)",
+      "url": "https://developers.zoom.us/docs/build-flow/create-oauth-apps/",
+      "kind": "official"
+    },
+    {
+      "id": 5,
+      "title": "Sharing Private and Beta Apps",
+      "url": "https://developers.zoom.us/docs/distribute/sharing-private-and-beta-apps/",
+      "kind": "official"
+    },
+    {
+      "id": 6,
+      "title": "App Review Process",
+      "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+      "kind": "official"
+    },
+    {
+      "id": 7,
+      "title": "What it takes to get approved on the Zoom App Marketplace (dev.to)",
+      "url": "https://dev.to/roee_tsur/what-it-takes-to-get-approved-on-the-zoom-app-marketplace-2709",
+      "kind": "community"
+    },
+    {
+      "id": 8,
+      "title": "Zoom Marketplace console probe",
+      "url": "https://marketplace.zoom.us/develop/create",
+      "kind": "probe"
+    },
+    {
+      "id": 9,
+      "title": "Zoom devforum: app submitted and still no reply / expedite threads",
+      "url": "https://devforum.zoom.us/t/zoom-app-submitted-on-4-5-and-still-no-reply/87373",
+      "kind": "community"
+    },
+    {
+      "id": 10,
+      "title": "Composio: custom app vs managed app",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio"
+    },
+    {
+      "id": 11,
+      "title": "Zoom devforum: approval process - any way to expedite?",
+      "url": "https://devforum.zoom.us/t/zoom-app-approval-process-any-way-to-expedite/131655",
+      "kind": "community"
+    }
+  ],
+  "probes": [
+    {
+      "action": "OAuth/OIDC discovery",
+      "target": "zoom.us",
+      "observed": "https://zoom.us/.well-known/openid-configuration returns 200; authorize https://zoom.us/oauth/authorize, token https://zoom.us/oauth/token, PKCE plain+S256, grants authorization_code, refresh_token, device_code, jwt-bearer; no registration_endpoint",
+      "conclusion": "Endpoints confirmed; PKCE supported; no dynamic client registration, so apps must be created in the Marketplace"
+    },
+    {
+      "action": "Authorize request with unregistered client_id and Composio redirect URI",
+      "target": "https://zoom.us/oauth/authorize",
+      "observed": "302 to /oauth/signin, then 200 JSON {\"errorCode\":4702,\"errorMessage\":\"Invalid client_id: oauth-guide-probe-unregistered-client\"}",
+      "conclusion": "Endpoint is live and validates client_id first; error 4702 means the client ID is wrong or not registered"
+    },
+    {
+      "action": "HTTP GET console",
+      "target": "https://marketplace.zoom.us/develop/create",
+      "observed": "200, title 'App Marketplace' (single-page app; login enforced client-side)",
+      "conclusion": "Console URL exists; you must sign in to build apps"
+    }
+  ],
+  "uncertainties": [
+    "Real Marketplace review durations aren't published. The 20-day and 6+ week figures come from individual developer reports.",
+    "Whether an Unlisted app has lighter requirements than Public: the docs only say both go through review.",
+    "Exactly how many outside users a Beta Test URL allows (the docs say 'a limited number').",
+    "Whether adding scopes to a published app always triggers a full re-review; only a logged-in submission would show this.",
+    "Whether Composio's managed Zoom app is published on the Marketplace, and what its rate limits are under shared quota.",
+    "Whether the 100-addition cap for private user-level apps is counted per account."
+  ],
+  "slug": "zoom",
+  "logo": "https://logos.composio.dev/api/zoom",
+  "composio": {
+    "slug": "zoom",
+    "composioManaged": true,
+    "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+    "defaultScopes": "contact:read:list_contacts,meeting:read:summary,meeting:read:list_registrants,meeting:read:list_past_participants,meeting:read:list_meetings,meeting:write:meeting,meeting:update:meeting,meeting:write:registrant,meeting:read:meeting,webinar:read:webinar,webinar:read:list_registrants,webinar:read:list_webinars,webinar:read:list_past_participants,webinar:read:participant,webinar:write:registrant,archiving:read:archived_files,archiving:read:list_archived_files,cloud_recording:delete:meeting_transcript,cloud_recording:read:meeting_transcript,cloud_recording:read:list_user_recordings,cloud_recording:read:list_recording_registrants,cloud_recording:read:list_recording_files,user:read:list_collaboration_devices,user:read:collaboration_device,user:read:settings,user:read:user",
+    "oauthSchemes": [
+      "OAUTH2"
+    ]
+  },
+  "meta": {
+    "generatedAt": "2026-10-28T12:53:13.391Z",
+    "model": "opus",
+    "durationMs": 160341,
+    "toolCalls": 11,
+    "costUsd": 0.38322290000000003,
+    "query": "zoom"
+  },
+  "review": {
+    "status": "agent_generated",
+    "reviewedAt": null,
+    "summary": null,
+    "corrections": []
+  }
+}

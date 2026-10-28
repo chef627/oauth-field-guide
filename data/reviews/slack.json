@@ -1,0 +1,37 @@
+{
+  "guideGeneratedAt": "2026-10-28T12:49:08.298Z",
+  "reviewedAt": "2026-10-28T14:45:00Z",
+  "summary": "Checked the claims that drive the timeline (rate limits, Marketplace thresholds and review windows) against Slack's official docs, and re-ran the agent's probes. Everything checked held up; one open question about the managed path.",
+  "corrections": [
+    {
+      "claim": "Since May 29, 2025, unlisted distributed apps get 1 request/minute and 15 objects/call on conversations.history and conversations.replies",
+      "finding": "Confirmed in Slack's changelog. It applies to commercially distributed apps created after that date and to net new installs of existing apps; internal (custom) apps keep 50+ req/min and 1,000 objects.",
+      "action": "confirmed",
+      "sourceUrl": "https://docs.slack.dev/changelog/2025/05/29/rate-limit-changes-for-non-marketplace-apps"
+    },
+    {
+      "claim": "Marketplace listing needs 10 active workspaces (active in last 28 days)",
+      "finding": "Confirmed in the Marketplace review guide.",
+      "action": "confirmed",
+      "sourceUrl": "https://docs.slack.dev/slack-marketplace/slack-marketplace-review-guide"
+    },
+    {
+      "claim": "Preliminary review up to 10 business days; functional review up to 10 weeks",
+      "finding": "Confirmed (6 weeks for published apps resubmitting changes).",
+      "action": "confirmed",
+      "sourceUrl": "https://docs.slack.dev/slack-marketplace/slack-marketplace-review-guide"
+    },
+    {
+      "claim": "Tested: authorize endpoint returns HTTP 200 with a client-rendered error for an unknown client; OIDC discovery exists without registration_endpoint; console requires sign-in",
+      "finding": "Re-ran all three probes independently on 2026-10-28 and got identical results.",
+      "action": "confirmed",
+      "sourceUrl": "https://slack.com/.well-known/openid-configuration"
+    },
+    {
+      "claim": "Composio's managed Slack app path has only shared-quota limits",
+      "finding": "Unknown whether Composio's managed Slack app is Marketplace-approved, which decides if the 1 req/min history limit applies to it. Worth confirming with Composio before recommending the managed path for history-heavy agents.",
+      "action": "flagged",
+      "sourceUrl": null
+    }
+  ]
+}

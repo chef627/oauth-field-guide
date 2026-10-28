@@ -1,0 +1,43 @@
+{
+  "guideGeneratedAt": "2026-10-28T12:49:25.160Z",
+  "reviewedAt": "2026-10-28T14:30:00Z",
+  "summary": "Checked 6 claims against Google's official help pages and Nango's Google review guide. Core path and timelines held up; one cost claim was misattributed to Google and two documented nuances were missing.",
+  "corrections": [
+    {
+      "claim": "Restricted Gmail scopes require a security assessment that is redone every year",
+      "finding": "Confirmed. Google: 'applications requesting access to restricted scopes must undergo an annual security assessment… All applications must be revalidated every year.'",
+      "action": "confirmed",
+      "sourceUrl": "https://support.google.com/cloud/answer/13465431"
+    },
+    {
+      "claim": "In Testing status, refresh tokens expire after 7 days",
+      "finding": "Confirmed, except when only name/email/profile scopes are requested.",
+      "action": "confirmed",
+      "sourceUrl": "https://developers.google.com/identity/protocols/oauth2"
+    },
+    {
+      "claim": "Production approval typically takes 2-6 weeks",
+      "finding": "Consistent: Google publishes '4-6 weeks' for restricted scope reviews; Nango reports 5-20 days for well-prepared teams, with CASA usually the longer leg. Kept as reported.",
+      "action": "confirmed",
+      "sourceUrl": "https://nango.dev/docs/api-integrations/google-shared/google-security-review"
+    },
+    {
+      "claim": "\"Google's docs say\" CASA costs $500-$4,500",
+      "finding": "Google's Security Assessment page states the requirement but no price. Figures come from vendors (Nango, Aug 2025: ~$700 Netsentries, $3,000+ Prescient). Re-attributed as vendor-reported.",
+      "action": "corrected",
+      "sourceUrl": "https://support.google.com/cloud/answer/13465431"
+    },
+    {
+      "claim": "(missing) Granular consent",
+      "finding": "Since January 2026 users can grant a subset of requested scopes; apps must handle partial grants. Added as a blocker.",
+      "action": "corrected",
+      "sourceUrl": "https://nango.dev/docs/api-integrations/google-shared/google-security-review"
+    },
+    {
+      "claim": "(missing) Refresh token cap",
+      "finding": "Google documents a limit of 100 refresh tokens per Google Account per client ID; the oldest is silently revoked. Added to technical notes.",
+      "action": "corrected",
+      "sourceUrl": "https://developers.google.com/identity/protocols/oauth2"
+    }
+  ]
+}

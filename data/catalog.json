@@ -1,0 +1,1584 @@
+{
+  "source": "https://docs.composio.dev/data/toolkits.json",
+  "fetchedAt": "2026-10-28T12:39:23.647Z",
+  "apps": [
+    {
+      "slug": "github",
+      "name": "GitHub",
+      "logo": "https://logos.composio.dev/api/github",
+      "category": "developer tools",
+      "description": "GitHub is a code hosting platform for version control and collaboration, offering Git-based repository management, issue tracking, and continuous integration features",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "repo,user,gist,notifications,project,workflow,codespace",
+      "toolCount": 899
+    },
+    {
+      "slug": "gitlab",
+      "name": "GitLab",
+      "logo": "https://logos.composio.dev/api/gitlab",
+      "category": "developer tools",
+      "description": "A web-based DevOps lifecycle tool that provides a Git repository manager providing wiki, issue-tracking, and CI/CD pipeline features.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "api,read_api,read_user,read_repository,write_repository,profile,email",
+      "toolCount": 123
+    },
+    {
+      "slug": "bitbucket",
+      "name": "Bitbucket",
+      "logo": "https://logos.composio.dev/api/bitbucket",
+      "category": "developer tools",
+      "description": "Bitbucket is a Git-based code hosting and collaboration platform supporting private and public repositories, enabling teams to manage and review code through pull requests and integrations",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "webhook,pullrequest:write,project:admin,runner:write,project:write,snippet:write,team:write,pipeline:variable,repository:delete,repository:admin,account:write,wiki,issue:write",
+      "toolCount": 118
+    },
+    {
+      "slug": "slack",
+      "name": "Slack",
+      "logo": "https://logos.composio.dev/api/slack",
+      "category": "team chat",
+      "description": "Slack is a channel-based messaging platform. With Slack, people can work together more effectively, connect all their software tools and services, and find the information they need to do their best work - all within a secure, enterprise-grade environment.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "calls:read,calls:write,channels:history,channels:read,channels:write,chat:write,dnd:read,dnd:write,emoji:read,files:read,files:write,groups:history,groups:read,groups:write,im:history,im:read,im:write,links:read,links:write,lists:read,lists:write,mpim:history,mpim:read,mpim:write,pins:read,pins:write,reactions:read,reactions:write,reminders:read,reminders:write,remote_files:read,remote_files:share,search:read,search:read.files,search:read.im,search:read.mpim,search:read.private,search:read.public,search:read.users,team:read,usergroups:read,usergroups:write,users.profile:read,users.profile:write,users:read,users:read.email,users:write",
+      "toolCount": 171
+    },
+    {
+      "slug": "discord",
+      "name": "Discord",
+      "logo": "https://logos.composio.dev/api/discord",
+      "category": "team chat",
+      "description": "An instant messaging and VoIP social platform.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "identify,email,connections,guilds,guilds.join,guilds.members.read,messages.read,openid",
+      "toolCount": 28
+    },
+    {
+      "slug": "microsoft_teams",
+      "name": "Microsoft Teams",
+      "logo": "https://logos.composio.dev/api/microsoft_teams",
+      "category": "team chat",
+      "description": "Microsoft Teams integrates chat, video meetings, and file storage within Microsoft 365, providing virtual collaboration and communication for distributed teams",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "Channel.Create,Channel.ReadBasic.All,ChannelMessage.Read.All,ChannelMessage.ReadWrite,ChannelMessage.Send,ChannelSettings.ReadWrite.All,Chat.Create,Chat.Read,Chat.ReadBasic,Chat.ReadWrite,Chat.ReadWrite.All,ChatMessage.Read,ChatMessage.Send,Directory.ReadWrite.All,Group.ReadWrite.All,offline_access,People.Read.All,Presence.ReadWrite,Team.Create,Team.ReadBasic.All,TeamMember.ReadWrite.All,TeamsActivity.Read,TeamsActivity.Send,User.Read,OnlineMeetings.ReadWrite",
+      "toolCount": 199
+    },
+    {
+      "slug": "zoom",
+      "name": "Zoom",
+      "logo": "https://logos.composio.dev/api/zoom",
+      "category": "video conferencing",
+      "description": "Zoom is a video conferencing and online meeting platform featuring breakout rooms, screen sharing, and integrations with various enterprise tools",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "contact:read:list_contacts,meeting:read:summary,meeting:read:list_registrants,meeting:read:list_past_participants,meeting:read:list_meetings,meeting:write:meeting,meeting:update:meeting,meeting:write:registrant,meeting:read:meeting,webinar:read:webinar,webinar:read:list_registrants,webinar:read:list_webinars,webinar:read:list_past_participants,webinar:read:participant,webinar:write:registrant,archiving:read:archived_files,archiving:read:list_archived_files,cloud_recording:delete:meeting_transcript,cloud_recording:read:meeting_transcript,cloud_recording:read:list_user_recordings,cloud_recording:read:list_recording_registrants,cloud_recording:read:list_recording_files,user:read:list_collaboration_devices,user:read:collaboration_device,user:read:settings,user:read:user",
+      "toolCount": 105
+    },
+    {
+      "slug": "webex",
+      "name": "Webex",
+      "logo": "https://logos.composio.dev/api/webex",
+      "category": "video conferencing",
+      "description": "Webex is a Cisco-powered video conferencing and collaboration platform offering online meetings, webinars, screen sharing, and team messaging",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "spark:all",
+      "toolCount": 26
+    },
+    {
+      "slug": "gmail",
+      "name": "Gmail",
+      "logo": "https://logos.composio.dev/api/gmail",
+      "category": "email",
+      "description": "Gmail is Google’s email service, featuring spam protection, search functions, and seamless integration with other G Suite apps for productivity",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/contacts.readonly,https://www.googleapis.com/auth/contacts.other.readonly,https://www.googleapis.com/auth/profile.language.read,https://www.googleapis.com/auth/user.addresses.read,https://www.googleapis.com/auth/user.birthday.read,https://www.googleapis.com/auth/user.emails.read,https://www.googleapis.com/auth/user.phonenumbers.read,https://www.googleapis.com/auth/profile.emails.read,https://mail.google.com/",
+      "toolCount": 63
+    },
+    {
+      "slug": "googlecalendar",
+      "name": "Google Calendar",
+      "logo": "https://logos.composio.dev/api/googlecalendar",
+      "category": "scheduling & booking",
+      "description": "Google Calendar is a time management tool providing scheduling features, event reminders, and integration with email and other apps for streamlined organization",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/calendar,https://www.googleapis.com/auth/calendar.events",
+      "toolCount": 50
+    },
+    {
+      "slug": "googledrive",
+      "name": "Google Drive",
+      "logo": "https://logos.composio.dev/api/googledrive",
+      "category": "file management & storage",
+      "description": "Google Drive is a cloud storage solution for uploading, sharing, and collaborating on files across devices, with robust search and offline access",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/userinfo.email",
+      "toolCount": 105
+    },
+    {
+      "slug": "googlesheets",
+      "name": "Google Sheets",
+      "logo": "https://logos.composio.dev/api/googlesheets",
+      "category": "spreadsheets",
+      "description": "Google Sheets is a cloud-based spreadsheet tool enabling real-time collaboration, data analysis, and integration with other Google Workspace apps",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/userinfo.email",
+      "toolCount": 58
+    },
+    {
+      "slug": "googledocs",
+      "name": "Google Docs",
+      "logo": "https://logos.composio.dev/api/googledocs",
+      "category": "documents",
+      "description": "Google Docs is a cloud-based word processor with real-time collaboration, version history, and integration with other Google Workspace apps",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/documents,https://www.googleapis.com/auth/userinfo.email",
+      "toolCount": 48
+    },
+    {
+      "slug": "youtube",
+      "name": "YouTube",
+      "logo": "https://logos.composio.dev/api/youtube",
+      "category": "video & audio",
+      "description": "YouTube is a video-sharing platform with user-generated content, live streaming, and monetization opportunities, widely used for marketing, education, and entertainment",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/youtube,https://www.googleapis.com/auth/youtube.channel-memberships.creator,https://www.googleapis.com/auth/youtube.force-ssl,https://www.googleapis.com/auth/youtube.readonly,https://www.googleapis.com/auth/youtube.upload,https://www.googleapis.com/auth/youtubepartner,https://www.googleapis.com/auth/youtubepartner-channel-audit",
+      "toolCount": 61
+    },
+    {
+      "slug": "google_analytics",
+      "name": "Google Analytics",
+      "logo": "https://logos.composio.dev/api/google_analytics",
+      "category": "analytics",
+      "description": "Google Analytics tracks and reports website traffic, user behavior, and conversion data, enabling marketers to optimize online performance and customer journeys",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/analytics,https://www.googleapis.com/auth/userinfo.profile",
+      "toolCount": 69
+    },
+    {
+      "slug": "googleads",
+      "name": "Google Ads",
+      "logo": "https://logos.composio.dev/api/googleads",
+      "category": "ads & conversion",
+      "description": "Google Ads, is an online advertising platform developed by Google, where advertisers bid to display brief advertisements, service offerings, product listings, and videos to web users.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/adwords",
+      "toolCount": 76
+    },
+    {
+      "slug": "google_search_console",
+      "name": "Google Search Console",
+      "logo": "https://logos.composio.dev/api/google_search_console",
+      "category": "analytics",
+      "description": "Google Search Console provides tools to monitor, maintain, and troubleshoot your site's presence in Google Search results.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://www.googleapis.com/auth/webmasters,https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email",
+      "toolCount": 9
+    },
+    {
+      "slug": "outlook",
+      "name": "Outlook",
+      "logo": "https://logos.composio.dev/api/outlook",
+      "category": "email",
+      "description": "Outlook is Microsoft's email and calendaring platform integrating contacts and scheduling, enabling users to manage communications and events in a unified workspace",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "Calendars.Read,Calendars.ReadWrite,Calendars.ReadWrite.Shared,Contacts.ReadWrite,Chat.ReadWrite,Mail.Read,Mail.ReadWrite,Mail.Send,MailboxSettings.Read,MailboxSettings.ReadWrite,offline_access,User.Read",
+      "toolCount": 328
+    },
+    {
+      "slug": "one_drive",
+      "name": "OneDrive",
+      "logo": "https://logos.composio.dev/api/one_drive",
+      "category": "file management & storage",
+      "description": "OneDrive is Microsoft’s cloud storage solution enabling users to store, sync, and share files across devices, offering offline access, real-time collaboration, and enterprise-grade security",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "Files.ReadWrite.All,Sites.ReadWrite.All,offline_access",
+      "toolCount": 95
+    },
+    {
+      "slug": "share_point",
+      "name": "SharePoint",
+      "logo": "https://logos.composio.dev/api/share_point",
+      "category": "documents",
+      "description": "SharePoint is a Microsoft platform for document management and intranets, enabling teams to collaborate, store, and organize content securely and effectively",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "https://{{subdomain}}.sharepoint.com/.default,offline_access",
+      "toolCount": 127
+    },
+    {
+      "slug": "excel",
+      "name": "Excel",
+      "logo": "https://logos.composio.dev/api/excel",
+      "category": "spreadsheets",
+      "description": "Microsoft Excel is a powerful spreadsheet application for data analysis, calculations, and visualization, enabling users to organize and process data with formulas, charts, and pivot tables",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "Files.ReadWrite,Sites.ReadWrite.All,offline_access,User.Read",
+      "toolCount": 106
+    },
+    {
+      "slug": "dynamics365",
+      "name": "Dynamics 365",
+      "logo": "https://logos.composio.dev/api/dynamics365",
+      "category": "crm",
+      "description": "Dynamics 365 from Microsoft combines CRM, ERP, and productivity apps to streamline sales, marketing, customer service, and operations in one integrated platform",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "offline_access",
+      "toolCount": 30
+    },
+    {
+      "slug": "linkedin",
+      "name": "LinkedIn",
+      "logo": "https://logos.composio.dev/api/linkedin",
+      "category": "social media accounts",
+      "description": "LinkedIn is a professional networking platform enabling job seekers, companies, and thought leaders to connect, share content, and discover business opportunities",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "openid,profile,w_member_social,email",
+      "toolCount": 25
+    },
+    {
+      "slug": "facebook",
+      "name": "Facebook",
+      "logo": "https://logos.composio.dev/api/facebook",
+      "category": "social media accounts",
+      "description": "Facebook is a social media and advertising platform used by individuals and businesses to connect, share content, and promote products or services. Only supports Facebook Pages, not Facebook Personal accounts.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "public_profile,email,business_management,pages_show_list,pages_read_engagement,pages_manage_posts,pages_manage_engagement,pages_read_user_content,pages_manage_metadata,pages_messaging,read_insights",
+      "toolCount": 59
+    },
+    {
+      "slug": "instagram",
+      "name": "Instagram",
+      "logo": "https://logos.composio.dev/api/instagram",
+      "category": "social media accounts",
+      "description": "Instagram is a social media platform for sharing photos, videos, and stories. Only supports Instagram Business and Creator accounts, not Instagram Personal accounts.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "instagram_business_basic,instagram_business_manage_messages,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights",
+      "toolCount": 40
+    },
+    {
+      "slug": "reddit",
+      "name": "Reddit",
+      "logo": "https://logos.composio.dev/api/reddit",
+      "category": "social media accounts",
+      "description": "Reddit is a social news platform with user-driven communities (subreddits), offering content sharing, discussions, and viral marketing opportunities for brands",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "identity,read,vote,submit,flair,edit",
+      "toolCount": 36
+    },
+    {
+      "slug": "twitter",
+      "name": "Twitter",
+      "logo": "https://logos.composio.dev/api/twitter",
+      "category": "social media accounts",
+      "description": "Twitter, Inc. was an American social media company based in San Francisco, California, which operated and was named for named for its flagship social media network prior to its rebrand as X.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "dm.write,dm.read,mute.read,mute.write,space.read,tweet.write,tweet.read,tweet.moderate.write,users.read,follows.read,follows.write,like.read,like.write,list.read,list.write,block.read,block.write,bookmark.read,bookmark.write,media.write,offline.access",
+      "toolCount": 84
+    },
+    {
+      "slug": "twitch",
+      "name": "Twitch",
+      "logo": "https://logos.composio.dev/api/twitch",
+      "category": "video & audio",
+      "description": "Twitch is a live streaming platform popular with gamers, creators, and communities, offering real-time interaction and monetization through subscriptions and donations",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 131
+    },
+    {
+      "slug": "pinterest",
+      "name": "Pinterest",
+      "logo": "https://logos.composio.dev/api/pinterest",
+      "category": "social media accounts",
+      "description": "Pinterest is a visual discovery platform for finding ideas like recipes, home and style inspiration, and more.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "boards:read,boards:read_secret,boards:write,boards:write_secret,pins:read,pins:read_secret,pins:write,pins:write_secret,user_accounts:read,user_accounts:write",
+      "toolCount": 27
+    },
+    {
+      "slug": "tiktok",
+      "name": "Tiktok",
+      "logo": "https://logos.composio.dev/api/tiktok",
+      "category": "social media accounts",
+      "description": "TikTok short-form video platform + creation tools + social sharing",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "user.info.basic,user.info.profile,user.info.stats,video.list,video.upload,video.publish",
+      "toolCount": 9
+    },
+    {
+      "slug": "tiktok_ads",
+      "name": "TikTok Ads",
+      "logo": "https://logos.composio.dev/api/tiktok_ads",
+      "category": "marketing",
+      "description": "Use TikTok API for Business actions to read advertisers, campaigns, ad groups, ads, audiences, creatives, catalogs, Business Centers, balances, billing, and transactions; manage advertiser settings, Asset Groups, disabled-by-default Smart+ and GMV Max resources, catalog feeds and videos, creative sharing, Pangle block lists, and selected compliance workflows; and retrieve MMM, GMV Max, and Smart+ reports.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 403
+    },
+    {
+      "slug": "snapchat",
+      "name": "Snapchat",
+      "logo": "https://logos.composio.dev/api/snapchat",
+      "category": "marketing",
+      "description": "Snapchat Marketing API and Ads Manager integration for creating and managing ad campaigns, analyzing performance metrics, and accessing business accounts.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "snapchat-marketing-api,snapchat-offline-conversions-api,snapchat-profile-api",
+      "toolCount": 140
+    },
+    {
+      "slug": "notion",
+      "name": "Notion",
+      "logo": "https://logos.composio.dev/api/notion",
+      "category": "notes",
+      "description": "Notion centralizes notes, docs, wikis, and tasks in a unified workspace, letting teams build custom workflows for collaboration and knowledge management",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 60
+    },
+    {
+      "slug": "confluence",
+      "name": "Confluence",
+      "logo": "https://logos.composio.dev/api/confluence",
+      "category": "team collaboration",
+      "description": "A tool for team collaboration and knowledge management.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2",
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "write:content:confluence,delete:content:confluence,read:space-details:confluence,read:audit-log:confluence,read:page:confluence,write:page:confluence,delete:page:confluence,read:blogpost:confluence,delete:blogpost:confluence,read:whiteboard:confluence,write:whiteboard:confluence,read:comment:confluence,write:comment:confluence,read:content.restriction:confluence,write:content.restriction:confluence,read:content.metadata:confluence,read:inlinetask:confluence,write:inlinetask:confluence,read:task:confluence,write:task:confluence,offline_access",
+      "toolCount": 70
+    },
+    {
+      "slug": "jira",
+      "name": "Jira",
+      "logo": "https://logos.composio.dev/api/jira",
+      "category": "project management",
+      "description": "A tool for bug tracking, issue tracking, and agile project management.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2",
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read:jira-work,write:jira-work,manage:jira-project,manage:jira-configuration,read:jira-user,manage:jira-webhook,manage:jira-data-provider,read:servicedesk-request,manage:servicedesk-customer,write:servicedesk-request,read:servicemanagement-insight-objects,offline_access,read:sprint:jira-software,write:sprint:jira-software,read:board-scope:jira-software,write:board-scope:jira-software,read:project:jira,read:issue-type-scheme:jira",
+      "toolCount": 103
+    },
+    {
+      "slug": "asana",
+      "name": "Asana",
+      "logo": "https://logos.composio.dev/api/asana",
+      "category": "project management",
+      "description": "Tool to help teams organize, track, and manage their work.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 157
+    },
+    {
+      "slug": "linear",
+      "name": "Linear",
+      "logo": "https://logos.composio.dev/api/linear",
+      "category": "project management",
+      "description": "Linear is a streamlined issue tracking and project planning tool for modern teams, featuring fast workflows, keyboard shortcuts, and GitHub integrations",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read,write,issues:create,comments:create",
+      "toolCount": 48
+    },
+    {
+      "slug": "clickup",
+      "name": "ClickUp",
+      "logo": "https://logos.composio.dev/api/clickup",
+      "category": "productivity",
+      "description": "ClickUp unifies tasks, docs, goals, and chat in a single platform, allowing teams to plan, organize, and collaborate across projects with customizable workflows",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 165
+    },
+    {
+      "slug": "trello",
+      "name": "Trello",
+      "logo": "https://logos.composio.dev/api/trello",
+      "category": "project management",
+      "description": "A web-based, kanban-style, list-making application.",
+      "oauthSchemes": [
+        "OAUTH1"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": null,
+      "defaultScopes": "read,write,account",
+      "toolCount": 331
+    },
+    {
+      "slug": "monday",
+      "name": "Monday",
+      "logo": "https://logos.composio.dev/api/monday",
+      "category": "project management",
+      "description": "monday.com is a customizable work management platform for project planning, collaboration, and automation, supporting agile, sales, marketing, and more",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 126
+    },
+    {
+      "slug": "basecamp",
+      "name": "Basecamp",
+      "logo": "https://logos.composio.dev/api/basecamp",
+      "category": "project management",
+      "description": "Project management and team collaboration tool by 37signals",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 142
+    },
+    {
+      "slug": "wrike",
+      "name": "Wrike",
+      "logo": "https://logos.composio.dev/api/wrike",
+      "category": "project management",
+      "description": "Wrike is a project management and collaboration tool offering customizable workflows, Gantt charts, reporting, and resource management to boost team productivity",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "Default,wsReadOnly,wsReadWrite,amReadOnlyWorkflow,amReadWriteWorkflow,amReadOnlyInvitation,amReadWriteInvitation,amReadOnlyGroup,amReadWriteGroup,amReadOnlyUser,amReadWriteUser",
+      "toolCount": 144
+    },
+    {
+      "slug": "todoist",
+      "name": "Todoist",
+      "logo": "https://logos.composio.dev/api/todoist",
+      "category": "task management",
+      "description": "Todoist is a task management tool allowing users to create to-do lists, set deadlines, and collaborate on projects with reminders and cross-platform syncing",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "data:read_write",
+      "toolCount": 84
+    },
+    {
+      "slug": "airtable",
+      "name": "Airtable",
+      "logo": "https://logos.composio.dev/api/airtable",
+      "category": "productivity",
+      "description": "Airtable merges spreadsheet functionality with database power, enabling teams to organize projects, track tasks, and collaborate through customizable views, automation, and integrations for data management",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "data.records:read,data.records:write,data.recordComments:read,data.recordComments:write,schema.bases:read,schema.bases:write,user.email:read",
+      "toolCount": 28
+    },
+    {
+      "slug": "smartsheet",
+      "name": "Smartsheet",
+      "logo": "https://logos.composio.dev/api/smartsheet",
+      "category": "project management",
+      "description": "Smartsheet is a collaborative work management platform for organizing projects, sheets, reports, dashboards, workflows, and teams.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "BEARER_TOKEN"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "ADMIN_SHEETS,ADMIN_SIGHTS,ADMIN_USERS,ADMIN_WEBHOOKS,ADMIN_WORKSPACES,CREATE_SHEETS,CREATE_SIGHTS,DELETE_SHEETS,DELETE_SIGHTS,READ_CONTACTS,READ_EVENTS,READ_SHEETS,READ_SIGHTS,READ_USERS,SHARE_SHEETS,SHARE_SIGHTS,WRITE_SHEETS",
+      "toolCount": 185
+    },
+    {
+      "slug": "miro",
+      "name": "Miro",
+      "logo": "https://logos.composio.dev/api/miro",
+      "category": "team collaboration",
+      "description": "Miro is a collaborative online whiteboard enabling teams to brainstorm ideas, design wireframes, plan workflows, and manage projects visually",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "boards:export,boards:read,boards:write",
+      "toolCount": 85
+    },
+    {
+      "slug": "figma",
+      "name": "Figma",
+      "logo": "https://logos.composio.dev/api/figma",
+      "category": "images & design",
+      "description": "A collaborative interface design tool.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "file_comments:write,webhooks:write,current_user:read,file_content:read,file_comments:read,projects:read,library_assets:read,library_content:read,team_library_content:read,file_metadata:read,file_versions:read,webhooks:read",
+      "toolCount": 53
+    },
+    {
+      "slug": "canva",
+      "name": "Canva",
+      "logo": "https://logos.composio.dev/api/canva",
+      "category": "images & design",
+      "description": "Canva offers a drag-and-drop design suite for creating social media graphics, presentations, and marketing materials with prebuilt templates and a vast element library",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "asset:read,asset:write,brandtemplate:content:read,brandtemplate:meta:read,comment:read,comment:write,design:content:read,design:content:write,design:meta:read,folder:read,folder:write,folder:permission:write,profile:read",
+      "toolCount": 53
+    },
+    {
+      "slug": "box",
+      "name": "Box",
+      "logo": "https://logos.composio.dev/api/box",
+      "category": "file management & storage",
+      "description": "Box is a cloud content management platform for secure file storage, sharing, collaboration, and governance.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 286
+    },
+    {
+      "slug": "dropbox",
+      "name": "Dropbox",
+      "logo": "https://logos.composio.dev/api/dropbox",
+      "category": "file management & storage",
+      "description": "Dropbox is a cloud storage service offering file syncing, sharing, and collaboration across devices with version control and robust integrations",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "email,profile,account_info.write,account_info.read,files.metadata.write,files.metadata.read,files.content.write,files.content.read,openid,file_requests.write,file_requests.read,sharing.write,sharing.read,contacts.write,contacts.read",
+      "toolCount": 178
+    },
+    {
+      "slug": "docusign",
+      "name": "DocuSign",
+      "logo": "https://logos.composio.dev/api/docusign",
+      "category": "signatures",
+      "description": "DocuSign provides eSignature and digital agreement solutions, enabling businesses to send, sign, track, and manage documents electronically",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "signature,impersonation",
+      "toolCount": 338
+    },
+    {
+      "slug": "sign_now",
+      "name": "SignNow",
+      "logo": "https://logos.composio.dev/api/signnow",
+      "category": "signatures",
+      "description": "Create, send, sign, and manage electronic documents, templates, signing workflows, teams, and organizations with SignNow.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "*",
+      "toolCount": 333
+    },
+    {
+      "slug": "boldsign",
+      "name": "Boldsign",
+      "logo": "https://logos.composio.dev/api/boldsign",
+      "category": "signatures",
+      "description": "BoldSign delivers eSignature solutions, letting organizations create, send, and manage legally binding documents through streamlined digital signing workflows",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "openid,profile,email,offline_access,BoldSign.Documents.All",
+      "toolCount": 14
+    },
+    {
+      "slug": "dropbox_sign",
+      "name": "Dropbox Sign",
+      "logo": "https://logos.composio.dev/api/dropbox_sign",
+      "category": "signatures",
+      "description": "Dropbox Sign (formerly HelloSign) offers electronic signature and document workflow solutions, simplifying how businesses collect legally binding signatures online",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "basic_account_info,request_signature",
+      "toolCount": 56
+    },
+    {
+      "slug": "hubspot",
+      "name": "HubSpot",
+      "logo": "https://logos.composio.dev/api/hubspot",
+      "category": "crm",
+      "description": "HubSpot is an inbound marketing, sales, and customer service platform integrating CRM, email automation, and analytics to facilitate lead nurturing and seamless customer experiences",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "account-info.security.read,accounting,cms.domains.read,cms.domains.write,crm.export,crm.import,crm.lists.read,crm.lists.write,crm.objects.companies.read,crm.objects.companies.write,crm.objects.contacts.read,crm.objects.contacts.write,crm.objects.deals.read,crm.objects.deals.write,crm.objects.marketing_events.read,crm.objects.marketing_events.write,crm.objects.owners.read,crm.objects.quotes.read,crm.objects.quotes.write,crm.schemas.companies.read,crm.schemas.companies.write,crm.schemas.contacts.read,crm.schemas.contacts.write,oauth,settings.users.read,settings.users.write,tickets,timeline,e-commerce,crm.objects.custom.read,crm.schemas.custom.read,content,sales-email-read",
+      "toolCount": 295
+    },
+    {
+      "slug": "salesforce",
+      "name": "Salesforce",
+      "logo": "https://logos.composio.dev/api/salesforce",
+      "category": "crm",
+      "description": "Salesforce is a leading CRM platform integrating sales, service, marketing, and analytics to build customer relationships and drive business growth",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "full,refresh_token,openid",
+      "toolCount": 316
+    },
+    {
+      "slug": "pipedrive",
+      "name": "Pipedrive",
+      "logo": "https://logos.composio.dev/api/pipedrive",
+      "category": "crm",
+      "description": "Pipedrive is a sales management tool built around pipeline visualization, lead tracking, activity reminders, and automation to keep deals progressing",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "contacts:full,leads:full,mail:full,activities:full,products:full,projects:full",
+      "toolCount": 406
+    },
+    {
+      "slug": "zoho",
+      "name": "Zoho",
+      "logo": "https://logos.composio.dev/api/zoho",
+      "category": "crm",
+      "description": "Zoho is a suite of cloud applications including CRM, email marketing, and collaboration tools, enabling businesses to automate and scale operations",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "ZohoCRM.modules.ALL,ZohoCRM.settings.ALL,ZohoCRM.users.ALL",
+      "toolCount": 100
+    },
+    {
+      "slug": "attio",
+      "name": "Attio",
+      "logo": "https://logos.composio.dev/api/attio",
+      "category": "crm",
+      "description": "Attio is a fully customizable workspace for your team's relationships and workflows.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "task:read-write,object_configuration:read,record_permission:read,user_management:read,list_configuration:read,list_entry:read,comment:read-write",
+      "toolCount": 114
+    },
+    {
+      "slug": "freshsales",
+      "name": "Freshsales",
+      "logo": "https://logos.composio.dev/api/freshsales",
+      "category": "crm",
+      "description": "Personalize engagement, shorten your sales cycle, and grow your business with Freshsales",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "freshsales.appointments.create,freshsales.appointments.view,freshsales.appointments.edit,freshsales.appointments.delete,freshsales.contacts.create,freshsales.contacts.filters.view,freshsales.contacts.upsert,freshsales.contacts.edit,freshsales.contacts.delete,freshsales.contacts.activities.view,freshsales.contacts.fields.view,freshsales.contacts.view,freshsales.custom_module_filters.view,freshsales.custom_module_records.create,freshsales.custom_module_records.delete,freshsales.custom_module_records.view,freshsales.custom_module_records.edit,freshsales.custom_modules.create,freshsales.custom_modules.view,freshsales.custom_modules.edit,freshsales.custom_modules.delete,freshsales.deals.create,freshsales.deals.delete,freshsales.deals.edit,freshsales.deals.view,freshsales.call_logs.create,freshsales.custom_fields.create,freshsales.deals.fields.view,freshsales.deals.filters.view,freshsales.deals.upsert,freshsales.document_links.create,freshsales.documents.create,freshsales.documents.delete,freshsales.documents.edit,freshsales.documents.view,freshsales.fields.view,freshsales.files.create,freshsales.job_statuses.view,freshsales.lookup.search,freshsales.marketing_lists.contacts.view,freshsales.marketing_lists.create,freshsales.marketing_lists.edit,freshsales.marketing_lists.view,freshsales.notes.create,freshsales.notes.delete,freshsales.notes.edit,freshsales.products.create,freshsales.products.delete,freshsales.products.edit,freshsales.products.view,freshsales.records.search,freshsales.sales_accounts.create,freshsales.sales_accounts.delete,freshsales.sales_accounts.edit,freshsales.sales_accounts.fields.view,freshsales.sales_accounts.filters.view,freshsales.sales_accounts.upsert,freshsales.sales_accounts.view,freshsales.sales_activities.create,freshsales.sales_activities.delete,freshsales.sales_activities.edit,freshsales.sales_activities.fields.view,freshsales.sales_activities.view,freshsales.selectors.view,freshsales.tasks.create,freshsales.tasks.delete,freshsales.tasks.edit,freshsales.tasks.view",
+      "toolCount": 104
+    },
+    {
+      "slug": "intercom",
+      "name": "Intercom",
+      "logo": "https://logos.composio.dev/api/intercom",
+      "category": "customer support",
+      "description": "Intercom provides live chat, messaging, and customer engagement tools, enabling businesses to drive conversions, handle support, and personalize communication at scale",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read_user,write_user,read_company,write_company,read_conversation,write_conversation,read_admin,write_admin,read_tag,write_tag,read_event,write_event,read_segment,write_segment,read_count,write_count,read_data_attribute,write_data_attribute,read_ticket,write_ticket,read_team,write_team,read_note,write_note,read_news,write_news,read_article,write_article,read_webhook,write_webhook,offline_access",
+      "toolCount": 133
+    },
+    {
+      "slug": "zendesk",
+      "name": "Zendesk",
+      "logo": "https://logos.composio.dev/api/zendesk",
+      "category": "crm",
+      "description": "Zendesk provides customer support software with ticketing, live chat, and knowledge base features, enabling efficient helpdesk operations and customer engagement",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read,write,organizations:read,organizations:write,tickets:read,tickets:write,users:read,users:write,webhooks:read,webhooks:write",
+      "toolCount": 457
+    },
+    {
+      "slug": "front",
+      "name": "Front",
+      "logo": "https://logos.composio.dev/api/front",
+      "category": "customer support",
+      "description": "Front is a shared inbox and collaboration platform that centralizes customer communications from multiple channels, enabling teams to manage emails, chats, and more",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "feature:public_api",
+      "toolCount": 180
+    },
+    {
+      "slug": "help_scout",
+      "name": "Help Scout",
+      "logo": "https://logos.composio.dev/api/help_scout",
+      "category": "customer support",
+      "description": "Help Scout provides customer support software with shared inbox, knowledge base, and customer management tools",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 129
+    },
+    {
+      "slug": "gorgias",
+      "name": "Gorgias",
+      "logo": "https://logos.composio.dev/api/gorgias",
+      "category": "crm",
+      "description": "Gorgias is a helpdesk and live chat platform specializing in e-commerce, offering automated support, order management, and unified customer communication",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "openid,email,profile,offline,account:read,account:write,users:read,users:write,customers:read,customers:write,tickets:read,tickets:write,custom_fields:read,custom_fields:write,events:read,events:write,integrations:read,integrations:write,jobs:read,jobs:write,macros:read,macros:write,rules:read,rules:write,satisfaction_survey:read,satisfaction_survey:write,statistics:read,tags:read,tags:write,apps:read,apps:write",
+      "toolCount": 44
+    },
+    {
+      "slug": "shopify",
+      "name": "Shopify",
+      "logo": "https://logos.composio.dev/api/shopify",
+      "category": "ecommerce",
+      "description": "Shopify is an e-commerce platform. This toolkit is GraphQL-first for new Admin API automations while retaining legacy REST compatibility actions for older workflows and numeric-ID interoperability",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read_products,write_products,read_orders,write_orders,read_customers,write_customers,read_inventory,write_inventory,read_fulfillments,write_fulfillments,read_assigned_fulfillment_orders,write_assigned_fulfillment_orders,read_content,write_content,read_themes,write_themes,read_locations,read_shipping,write_shipping,read_gift_cards,write_gift_cards,read_script_tags,write_script_tags,read_marketing_events,write_marketing_events,read_price_rules,write_price_rules,read_discounts,write_discounts,read_draft_orders,write_draft_orders,read_metaobjects,write_metaobjects,read_webhooks,write_webhooks,read_publications",
+      "toolCount": 407
+    },
+    {
+      "slug": "stripe",
+      "name": "Stripe",
+      "logo": "https://logos.composio.dev/api/stripe",
+      "category": "payment processing",
+      "description": "Stripe offers online payment infrastructure, fraud prevention, and APIs enabling businesses to accept and manage payments globally",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read_write",
+      "toolCount": 435
+    },
+    {
+      "slug": "square",
+      "name": "Square",
+      "logo": "https://logos.composio.dev/api/square",
+      "category": "payment processing",
+      "description": "Square provides payment processing, POS systems, invoicing, and e-commerce tools, enabling sellers to accept card payments and manage their business",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "CUSTOMERS_READ,CUSTOMERS_WRITE,MERCHANT_PROFILE_READ,MERCHANT_PROFILE_WRITE",
+      "toolCount": 122
+    },
+    {
+      "slug": "quickbooks",
+      "name": "QuickBooks",
+      "logo": "https://logos.composio.dev/api/quickbooks",
+      "category": "accounting",
+      "description": "Quickbooks is a cloud-based accounting software that helps you manage your finances, track your income and expenses, and get insights into your business",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "com.intuit.quickbooks.accounting,openid,profile,email,phone,address",
+      "toolCount": 114
+    },
+    {
+      "slug": "xero",
+      "name": "Xero",
+      "logo": "https://logos.composio.dev/api/xero",
+      "category": "accounting",
+      "description": "Xero is a cloud-based accounting software for small businesses, providing invoicing, bank reconciliation, bookkeeping, and financial reporting in real time",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "offline_access,email,profile,openid,files,files.read,projects,projects.read,accounting.manualjournals.read,accounting.manualjournals,accounting.banktransactions.read,accounting.banktransactions,accounting.payments.read,accounting.payments,accounting.invoices.read,accounting.invoices,accounting.reports.tenninetynine.read,accounting.budgets.read,accounting.attachments.read,accounting.attachments,accounting.contacts.read,accounting.contacts,accounting.settings.read,accounting.settings,accounting.reports.taxreports.read,accounting.reports.trialbalance.read,accounting.reports.profitandloss.read,accounting.reports.executivesummary.read,accounting.reports.budgetsummary.read,accounting.reports.banksummary.read,accounting.reports.aged.read",
+      "toolCount": 68
+    },
+    {
+      "slug": "freshbooks",
+      "name": "FreshBooks",
+      "logo": "https://logos.composio.dev/api/freshbooks",
+      "category": "accounting",
+      "description": "FreshBooks is a cloud-based accounting software service designed for small and medium-sized businesses, offering features like invoicing, expense tracking, and time management.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "user:profile:read,user:projects:read,user:clients:read",
+      "toolCount": 10
+    },
+    {
+      "slug": "gusto",
+      "name": "Gusto",
+      "logo": "https://logos.composio.dev/api/gusto",
+      "category": "human resources",
+      "description": "Modern payroll, benefits, and HR management platform for small and medium businesses",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "companies:read,employees:read,payrolls:read",
+      "toolCount": 192
+    },
+    {
+      "slug": "deel",
+      "name": "Deel",
+      "logo": "https://logos.composio.dev/api/deel",
+      "category": "hr talent & recruitment",
+      "description": "Deel provides a global payroll and compliance platform for hiring international contractors and employees. This toolkit supports Deel Organization OAuth connections only.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "accounting:read,adjustments:read,contracts:read,organizations:read,people:read,time-off:read,timesheets:read",
+      "toolCount": 436
+    },
+    {
+      "slug": "workday",
+      "name": "Workday",
+      "logo": "https://logos.composio.dev/api/workday",
+      "category": "human resources",
+      "description": "Workday is a cloud-based enterprise resource planning (ERP) software that provides comprehensive solutions for human capital management, financial management, and analytics",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "System",
+      "toolCount": 588
+    },
+    {
+      "slug": "netsuite",
+      "name": "Netsuite",
+      "logo": "https://logos.composio.dev/api/netsuite",
+      "category": "accounting",
+      "description": "NetSuite by Oracle is a cloud-based ERP suite that combines accounting, CRM, e-commerce, and inventory management for comprehensive business oversight",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "rest_webservices,restlets",
+      "toolCount": 86
+    },
+    {
+      "slug": "mailchimp",
+      "name": "Mailchimp",
+      "logo": "https://logos.composio.dev/api/mailchimp",
+      "category": "email newsletters",
+      "description": "Mailchimp is an email marketing and automation platform providing campaign templates, audience segmentation, and performance analytics to drive engagement and conversions",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 277
+    },
+    {
+      "slug": "klaviyo",
+      "name": "Klaviyo",
+      "logo": "https://logos.composio.dev/api/klaviyo",
+      "category": "marketing automation",
+      "description": "Klaviyo is a data-driven email and SMS marketing platform that allows e-commerce brands to deliver targeted messages, track conversions, and scale customer relationships",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "accounts:read,campaigns:read,campaigns:write,conversations:read,conversations:write,catalogs:read,catalogs:write,coupons:read,coupons:write,coupon-codes:read,coupon-codes:write,data-privacy:read,data-privacy:write,events:read,events:write,flows:read,flows:write,images:read,images:write,lists:read,lists:write,metrics:read,metrics:write,profiles:read,profiles:write,push-tokens:read,push-tokens:write,segments:read,segments:write,subscriptions:read,subscriptions:write,tags:read,tags:write,templates:read,templates:write",
+      "toolCount": 233
+    },
+    {
+      "slug": "kit",
+      "name": "Kit",
+      "logo": "https://logos.composio.dev/api/kit",
+      "category": "marketing automation",
+      "description": "Kit is a platform that allows creators to automate tasks and developers to build apps for the Kit App Store.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "public",
+      "toolCount": 42
+    },
+    {
+      "slug": "getresponse",
+      "name": "GetResponse",
+      "logo": "https://logos.composio.dev/api/getresponse",
+      "category": "marketing automation",
+      "description": "Manage GetResponse email marketing, contacts, campaigns, automation, ecommerce, and account resources.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 213
+    },
+    {
+      "slug": "calendly",
+      "name": "Calendly",
+      "logo": "https://logos.composio.dev/api/calendly",
+      "category": "scheduling & booking",
+      "description": "Calendly is an appointment scheduling tool that automates meeting invitations, availability checks, and reminders, helping individuals and teams avoid email back-and-forth",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 57
+    },
+    {
+      "slug": "cal",
+      "name": "Cal",
+      "logo": "https://logos.composio.dev/api/cal",
+      "category": "scheduling & booking",
+      "description": "Cal simplifies meeting coordination by providing shareable booking pages, calendar syncing, and availability management to streamline the scheduling process",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 175
+    },
+    {
+      "slug": "typeform",
+      "name": "Typeform",
+      "logo": "https://logos.composio.dev/api/typeform",
+      "category": "forms & surveys",
+      "description": "Build beautiful, interactive forms that people love to fill out. Collect data, accept payments, and integrate with your favorite tools.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "accounts:read,forms:read,forms:write,images:read,images:write,themes:read,themes:write,responses:read,responses:write,webhooks:read,webhooks:write,workspaces:read,workspaces:write,offline",
+      "toolCount": 35
+    },
+    {
+      "slug": "eventbrite",
+      "name": "Eventbrite",
+      "logo": "https://logos.composio.dev/api/eventbrite",
+      "category": "event management",
+      "description": "Eventbrite enables organizers to plan, promote, and manage events, selling tickets and providing attendee tools for conferences, concerts, and gatherings",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "event:read,event:write,order:read,order:write,attendee:read,attendee:write,user:read,user:write,organizer:read,organizer:write,venue:read,venue:write",
+      "toolCount": 95
+    },
+    {
+      "slug": "gong",
+      "name": "Gong",
+      "logo": "https://logos.composio.dev/api/gong",
+      "category": "analytics",
+      "description": "Gong is a platform for video meetings, call recording, and team collaboration.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "BASIC"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "api:calls:read:transcript,api:provisioning:read,api:workspaces:read,api:meetings:user:delete,api:crm:get-objects,api:data-privacy:delete,api:crm:schema,api:flows:write,api:crm:upload,api:meetings:integration:status,api:calls:read:extensive,api:meetings:user:update,api:integration-settings:write,api:settings:scorecards:read,api:stats:scorecards,api:stats:interaction,api:stats:user-actions,api:crm:integration:delete,api:calls:read:basic,api:calls:read:media-url,api:tasks:read,api:digital-interactions:write,api:crm:integrations:read,api:library:read,api:data-privacy:read,api:users:read,api:tasks:write,api:logs:read,api:calls:create,api:meetings:user:create,api:stats:user-actions:detailed,api:settings:trackers:read,api:crm:integration:register,api:provisioning:read-write,api:engagement-data:write,api:permission-profile:read,api:permission-profile:write,api:flows:read,api:crm-calls:manual-association:read,api:call-outcomes:read",
+      "toolCount": 58
+    },
+    {
+      "slug": "servicenow",
+      "name": "ServiceNow",
+      "logo": "https://logos.composio.dev/api/servicenow",
+      "category": "it operations",
+      "description": "ServiceNow is a cloud-based enterprise platform that helps organizations automate and manage digital workflows across IT, HR, customer service, and operations.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "BASIC",
+        "S2S_OAUTH2"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "useraccount",
+      "toolCount": 171
+    },
+    {
+      "slug": "pagerduty",
+      "name": "PagerDuty",
+      "logo": "https://logos.composio.dev/api/pagerduty",
+      "category": "server monitoring",
+      "description": "PagerDuty helps you proactively manage your digital operations by collecting data signals from anywhere, interpreting those signals using machine learning, automatically engaging the right people, and accelerating resolution and learning.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read,write",
+      "toolCount": 368
+    },
+    {
+      "slug": "sentry",
+      "name": "Sentry",
+      "logo": "https://logos.composio.dev/api/sentry",
+      "category": "developer tools",
+      "description": "Integrate Sentry to manage your error tracking and monitoring.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "org:read,org:write,project:read,project:write,project:releases,team:read,team:write,member:read,member:write,event:read,event:write",
+      "toolCount": 211
+    },
+    {
+      "slug": "datadog",
+      "name": "Datadog",
+      "logo": "https://logos.composio.dev/api/datadog",
+      "category": "server monitoring",
+      "description": "Datadog offers monitoring, observability, and security for cloud-scale applications, unifying metrics, logs, and traces to help teams detect issues and optimize performance",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY",
+        "BEARER_TOKEN"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "dashboards_read,dashboards_write,monitors_read,monitors_write,metrics_read,timeseries_query,events_read,logs_read_data,users_read,incidents_read",
+      "toolCount": 78
+    },
+    {
+      "slug": "vercel",
+      "name": "Vercel",
+      "logo": "https://logos.composio.dev/api/vercel",
+      "category": "developer tools",
+      "description": "Vercel is a platform for frontend frameworks and static sites, enabling developers to host websites and web services that deploy instantly, scale automatically, and require minimal configuration.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 152
+    },
+    {
+      "slug": "digital_ocean",
+      "name": "DigitalOcean",
+      "logo": "https://logos.composio.dev/api/digital_ocean",
+      "category": "developer tools",
+      "description": "DigitalOcean is a cloud infrastructure provider offering scalable compute platforms with a user-friendly interface.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "read",
+      "toolCount": 55
+    },
+    {
+      "slug": "webflow",
+      "name": "Webflow",
+      "logo": "https://logos.composio.dev/api/webflow",
+      "category": "website builders",
+      "description": "Webflow is a no-code website design and hosting platform, letting users build responsive sites, launch online stores, and maintain content without coding",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "assets:read,assets:write,authorized_user:read,cms:read,cms:write,custom_code:read,custom_code:write,forms:read,forms:write,pages:read,pages:write,sites:read,sites:write",
+      "toolCount": 60
+    },
+    {
+      "slug": "wix",
+      "name": "Wix",
+      "logo": "https://logos.composio.dev/api/wix",
+      "category": "website builders",
+      "description": "Wix is a cloud-based web development platform that allows users to create HTML5 websites and mobile sites through drag-and-drop tools. The Wix API provides programmatic access to manage sites, products, orders, and other resources.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 146
+    },
+    {
+      "slug": "wordpress_com",
+      "name": "WordPress.com",
+      "logo": "https://logos.composio.dev/api/wordpress_com",
+      "category": "content & files",
+      "description": "Manage WordPress.com and Jetpack-connected sites, content, media, comments, Reader data, statistics, and supported platform features through the centralized WordPress.com API.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "global",
+      "toolCount": 11
+    },
+    {
+      "slug": "contentful",
+      "name": "Contentful",
+      "logo": "https://logos.composio.dev/api/contentful",
+      "category": "developer tools",
+      "description": "Contentful is a headless CMS allowing developers to create, manage, and distribute content across multiple channels and devices with an API-first approach",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": true,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "content_management_manage",
+      "toolCount": 124
+    },
+    {
+      "slug": "spotify",
+      "name": "Spotify",
+      "logo": "https://logos.composio.dev/api/spotify",
+      "category": "news & lifestyle",
+      "description": "Spotify is a digital music and podcast streaming service with millions of tracks, personalized playlists, and social sharing features",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "user-read-private,user-read-email,app-remote-control,streaming,user-modify-playback-state,user-read-playback-state,user-read-currently-playing",
+      "toolCount": 88
+    },
+    {
+      "slug": "ramp",
+      "name": "Ramp",
+      "logo": "https://logos.composio.dev/api/ramp",
+      "category": "accounting",
+      "description": "Ramp is a platform that helps you manage your finances, track your income and expenses, and get insights into your business",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "accounting:read,accounting:write,bank_accounts:read,bills:read,bills:write,business:read,cards:read,cards:read_vault,cards:write,cashbacks:read,custom_records:read,custom_records:write,departments:read,departments:write,entities:read,item_receipts:read,leads:read,leads:write,limits:read,limits:write,locations:read,locations:write,memos:read,memos:write,merchants:read,purchase_orders:read,purchase_orders:write,receipt_integrations:read,receipt_integrations:write,receipts:read,receipts:write,reimbursements:read,spend_programs:read,spend_programs:write,statements:read,transactions:read,transfers:read,users:read,users:write,vendors:read,vendors:write",
+      "toolCount": 111
+    },
+    {
+      "slug": "brex",
+      "name": "Brex",
+      "logo": "https://logos.composio.dev/api/brex",
+      "category": "accounting",
+      "description": "Brex provides corporate credit cards, spend management, and financial tools tailored for startups and tech businesses to optimize cash flow, accounting, and growth",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "accounts.card.readonly,accounts.cash.readonly,budgets,budgets.readonly,cards,cards.pan,cards.readonly,cash.accounts.readonly,companies.readonly,departments,departments.readonly,expenses.card,expenses.card.readonly,incoming_transfers,linked_accounts.readonly,locations,locations.readonly,offline_access,openid,statements.card.readonly,statements.cash.readonly,titles,titles.readonly,transactions.card.readonly,transactions.cash.readonly,transfers,transfers.readonly,users,users.readonly,vendors,vendors.readonly",
+      "toolCount": 84
+    },
+    {
+      "slug": "vimeo",
+      "name": "Vimeo",
+      "logo": "https://logos.composio.dev/api/vimeo",
+      "category": "video & audio",
+      "description": "Vimeo is a video platform for hosting, managing, sharing, and interacting with video content and account resources.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "public,private",
+      "toolCount": 50
+    },
+    {
+      "slug": "clover",
+      "name": "Clover",
+      "logo": "https://logos.composio.dev/api/clover",
+      "category": "commerce",
+      "description": "Manage Clover merchant, inventory, customer, employee, order, payment, cash, notification, app, and print data through the regional Platform REST API.",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [
+        "API_KEY"
+      ],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "",
+      "toolCount": 209
+    },
+    {
+      "slug": "epic_games",
+      "name": "Epic Games",
+      "logo": "https://logos.composio.dev/api/epic_games",
+      "category": "gaming",
+      "description": "Epic Games is a video game developer and publisher known for titles like Fortnite and the Unreal Engine, offering an online store and platform",
+      "oauthSchemes": [
+        "OAUTH2"
+      ],
+      "composioManaged": false,
+      "otherAuthSchemes": [],
+      "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+      "defaultScopes": "basic_profile,friends_list,presence",
+      "toolCount": 28
+    }
+  ]
+}

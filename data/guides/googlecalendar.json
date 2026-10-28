@@ -1,0 +1,497 @@
+{
+  "appName": "Google Calendar",
+  "website": "https://developers.google.com/workspace/calendar",
+  "summary": "Composio already provides a managed Google OAuth app for Google Calendar, so you can connect users today with no registration. If you want your own branding, scopes or quota, create a Google Cloud OAuth client. A public custom app that uses the Calendar scopes Composio defaults to (calendar, calendar.events) must pass Google's OAuth verification, which developers report is slow in 2026. Biggest gotcha: while a custom app's consent screen is in Testing status, refresh tokens expire after 7 days.",
+  "verdict": {
+    "difficulty": "moderate",
+    "difficultyReason": "Self-serve and instant via Composio's managed app, but a custom app for arbitrary users needs Google sensitive-scope verification, reported to take weeks to months.",
+    "devReady": {
+      "estimate": "0 min with the Composio managed app; 30-60 min with your own Google Cloud OAuth client",
+      "detail": "Managed app: create a Composio connection and sign in (consent screen says Composio). Own app: create the client with the consent screen in Testing and add test users. Testing-mode refresh tokens expire after 7 days and only listed test users can connect."
+    },
+    "productionReady": {
+      "estimate": "Immediate with the Composio managed app (shared quota); custom app: Google's panel reportedly says 4-6 weeks, developers report 2-3+ months in 2026",
+      "detail": "Publish the custom app to In production and submit for verification: scope justification, demo video, privacy policy, homepage, authorized domain. Until verified, users see an unverified-app warning. A user cap of 100 for unverified apps is commonly cited but I did not confirm it on an official page. Narrower scopes (e.g. calendar.events.owned, calendar.app.created) may reduce friction, but their sensitivity level was not confirmed.",
+      "approvalRequired": true
+    },
+    "handsOnEffort": "0 hours (managed) or 3-6 hours for own app plus verification materials"
+  },
+  "nextAction": "Create a Composio connection for googlecalendar using the managed app at https://dashboard.composio.dev and test with your own Google account. Start a custom app only if you need your own branding, scopes or quota.",
+  "accessPaths": [
+    {
+      "name": "Composio managed app",
+      "whenToUse": "Prototypes, internal tools, anything where a 'Composio' consent screen is acceptable.",
+      "reviewRequired": false,
+      "timeline": "Minutes",
+      "limits": "Default scopes only (calendar, calendar.events), quota shared across Composio users, 15-minute minimum trigger polling."
+    },
+    {
+      "name": "Own app, Testing status",
+      "whenToUse": "Developing and testing your own client with up to a handful of named test users.",
+      "reviewRequired": false,
+      "timeline": "30-60 min",
+      "limits": "Only listed test users; refresh tokens expire after 7 days (documented by Google)."
+    },
+    {
+      "name": "Own app, In production but unverified",
+      "whenToUse": "Small pilots where users can click through a warning.",
+      "reviewRequired": false,
+      "timeline": "Same day",
+      "limits": "Unverified-app warning screen; user cap reported (commonly 100) but not confirmed by me."
+    },
+    {
+      "name": "Own app, verified",
+      "whenToUse": "Public product with your own branding and no warning screen.",
+      "reviewRequired": true,
+      "timeline": "Reported 4-6 weeks target; 2-3+ months reported in 2026 forum threads",
+      "limits": "Annual re-verification applies to restricted scopes; Calendar scopes are not expected to be restricted (unconfirmed)."
+    }
+  ],
+  "prerequisites": [
+    {
+      "item": "Google Cloud project",
+      "detail": "Needed only for a custom app. Create at console.cloud.google.com and enable the Google Calendar API.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Composio account",
+      "detail": "Dashboard at dashboard.composio.dev for managed or custom auth configs.",
+      "required": true,
+      "owner": "you"
+    },
+    {
+      "item": "Privacy policy and homepage",
+      "detail": "Public URLs on a domain you own; required on the consent screen for verification.",
+      "required": false,
+      "owner": "agent_assisted"
+    },
+    {
+      "item": "Verified authorized domain",
+      "detail": "Verify in Google Search Console and add it under Authorized domains.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Demo video",
+      "detail": "YouTube video showing the OAuth flow, the consent screen with client ID, and where each scope is used.",
+      "required": false,
+      "owner": "you"
+    },
+    {
+      "item": "Scope justification",
+      "detail": "Written explanation per sensitive scope; draft below.",
+      "required": false,
+      "owner": "agent"
+    }
+  ],
+  "phases": [
+    {
+      "title": "Option A: use Composio managed app",
+      "goal": "A user can connect Google Calendar with no Google setup.",
+      "duration": "5 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create a connection with default auth",
+          "detail": "Use toolkit slug googlecalendar without specifying authConfigs. Sign in with your Google account and approve the Composio consent screen.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Register your own Google OAuth app",
+      "goal": "Working OAuth flow through your own client in Testing mode.",
+      "duration": "30-60 min",
+      "waitTime": null,
+      "steps": [
+        {
+          "title": "Create project and enable API",
+          "detail": "In Google Cloud Console create a project, then APIs & Services > Library > Google Calendar API > Enable.",
+          "owner": "agent_assisted",
+          "url": "https://console.cloud.google.com/apis/library/calendar-json.googleapis.com",
+          "confidence": "unverified",
+          "sourceIds": [
+            3
+          ]
+        },
+        {
+          "title": "Configure consent screen",
+          "detail": "Google Auth Platform / OAuth consent screen: set app name, support email, User type External, add privacy policy and homepage links and authorized domain. Leave in Testing and add your Google accounts as test users.",
+          "owner": "you",
+          "url": "https://console.cloud.google.com/auth/overview",
+          "confidence": "documented",
+          "sourceIds": [
+            4
+          ]
+        },
+        {
+          "title": "Add scopes",
+          "detail": "Add https://www.googleapis.com/auth/calendar and https://www.googleapis.com/auth/calendar.events (Composio defaults), or narrower scopes if your use case allows.",
+          "owner": "you",
+          "url": "https://developers.google.com/workspace/calendar/api/auth",
+          "confidence": "documented",
+          "sourceIds": [
+            5,
+            6
+          ]
+        },
+        {
+          "title": "Create OAuth client",
+          "detail": "Credentials > Create credentials > OAuth client ID > Web application. Add authorized redirect URI exactly: https://backend.composio.dev/api/v1/auth-apps/add. Copy Client ID and Secret.",
+          "owner": "you",
+          "url": "https://console.cloud.google.com/apis/credentials",
+          "confidence": "documented",
+          "sourceIds": [
+            1,
+            3
+          ]
+        },
+        {
+          "title": "Create Composio auth config",
+          "detail": "Dashboard > Auth Configs > Create Auth Config > Google Calendar > OAuth2 > paste Client ID/Secret > Create. Copy the ac_... ID and pass it in the session authConfigs keyed by googlecalendar.",
+          "owner": "agent_assisted",
+          "url": "https://dashboard.composio.dev",
+          "confidence": "documented",
+          "sourceIds": [
+            1
+          ]
+        },
+        {
+          "title": "Test connection",
+          "detail": "Connect with a test user. Expect refresh tokens to die after 7 days while in Testing.",
+          "owner": "you",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Go live with your own app",
+      "goal": "Any Google user can connect without a warning screen.",
+      "duration": "2-4 hours hands-on",
+      "waitTime": "Reported 4-6 weeks target; 2-3+ months reported by some developers in 2026",
+      "steps": [
+        {
+          "title": "Publish to production",
+          "detail": "On the consent screen page click Publish app. Apps in Testing cannot be submitted for verification.",
+          "owner": "you",
+          "url": "https://console.cloud.google.com/auth/audience",
+          "confidence": "documented",
+          "sourceIds": [
+            8
+          ]
+        },
+        {
+          "title": "Prepare materials",
+          "detail": "Scope justification, demo video, working privacy policy on your verified domain. Use the drafts below.",
+          "owner": "agent_assisted",
+          "url": null,
+          "confidence": "documented",
+          "sourceIds": [
+            8
+          ]
+        },
+        {
+          "title": "Submit for verification and respond to Trust & Safety",
+          "detail": "Submit in the Verification Center. Reviewers email project owners/editors; keep those contacts monitored and reply in the thread.",
+          "owner": "you",
+          "url": "https://console.cloud.google.com/auth/verification",
+          "confidence": "documented",
+          "sourceIds": [
+            8,
+            9
+          ]
+        },
+        {
+          "title": "Fallback while waiting",
+          "detail": "Use the Composio managed app for users, or keep users on the unverified warning flow for pilots.",
+          "owner": "you",
+          "url": null,
+          "confidence": "unverified",
+          "sourceIds": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "https://www.googleapis.com/auth/calendar",
+      "purpose": "Full read/write on all calendars, including deletion.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Triggers verification for public apps (Google says sensitive/restricted scopes need verification; the classification of this specific scope is from my knowledge, not a page I fetched). Justify why narrower scopes won't do."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.events",
+      "purpose": "Read and edit events on all calendars.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Triggers verification; developers report a 5+ week review for this scope."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.events.readonly",
+      "purpose": "Read events only.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Still likely sensitive; classification not confirmed."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.events.owned",
+      "purpose": "Manage events only on calendars the user owns.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Narrower option; sensitivity level not confirmed."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.app.created",
+      "purpose": "Create secondary calendars and manage events only on them.",
+      "sensitivity": "basic",
+      "reviewNote": "Likely non-sensitive, but unconfirmed. Check the scope label in the Console."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.freebusy",
+      "purpose": "Read user's availability only.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Classification unconfirmed; check in Console."
+    },
+    {
+      "scope": "https://www.googleapis.com/auth/calendar.readonly",
+      "purpose": "Read all calendars.",
+      "sensitivity": "sensitive",
+      "reviewNote": "Classification unconfirmed."
+    }
+  ],
+  "blockers": [
+    {
+      "title": "Verification stuck in review",
+      "symptom": "Verification Center shows 'under review' for weeks with no Trust & Safety email, often at the privacy policy step.",
+      "fix": "Make sure the privacy policy is public, on your verified domain, and names Google user data usage. Reply in the existing email thread if one exists; otherwise post in Google's developer community. Use the Composio managed app meanwhile.",
+      "confidence": "reported",
+      "sourceIds": [
+        10
+      ]
+    },
+    {
+      "title": "Refresh token expires after 7 days",
+      "symptom": "Users must re-authenticate weekly; invalid_grant on refresh.",
+      "fix": "Publish the app to In production. Does not apply to the Composio managed app.",
+      "confidence": "documented",
+      "sourceIds": [
+        7
+      ]
+    },
+    {
+      "title": "Cannot submit while in Testing",
+      "symptom": "Verification submission unavailable.",
+      "fix": "Publish app to production first.",
+      "confidence": "documented",
+      "sourceIds": [
+        8
+      ]
+    },
+    {
+      "title": "Oldest refresh token silently invalidated",
+      "symptom": "Connections break when one account authorizes the same client more than 100 times.",
+      "fix": "Reuse existing connections; avoid repeated re-auth for the same user and client.",
+      "confidence": "documented",
+      "sourceIds": [
+        7
+      ]
+    },
+    {
+      "title": "Unregistered or wrong client",
+      "symptom": "invalid_client / 'The OAuth client was not found' on the authorize page.",
+      "fix": "Check the client ID in the Composio auth config and that the redirect URI exactly matches.",
+      "confidence": "tested",
+      "sourceIds": [
+        11
+      ]
+    },
+    {
+      "title": "Unused tokens expire",
+      "symptom": "Refresh token dead after 6 months of no use.",
+      "fix": "Prompt re-connection or use the connection periodically.",
+      "confidence": "documented",
+      "sourceIds": [
+        7
+      ]
+    }
+  ],
+  "technical": {
+    "consoleUrl": "https://console.cloud.google.com/apis/credentials",
+    "docsUrl": "https://developers.google.com/identity/protocols/oauth2",
+    "authorizeUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+    "tokenUrl": "https://oauth2.googleapis.com/token",
+    "pkce": "Supported (S256 and plain) per discovery metadata; optional for web server clients with a secret.",
+    "refreshTokens": "Pass access_type=offline (and typically prompt=consent) to get a refresh token. Expires after 7 days in Testing status for external apps, after 6 months of non-use, and the 100-per-account-per-client limit silently invalidates the oldest. Access tokens are short-lived (typically 1 hour; not verified on a fetched page).",
+    "redirectUriRules": "Exact match against URIs registered on the OAuth client. Register https://backend.composio.dev/api/v1/auth-apps/add. HTTPS is required for non-localhost URIs (from my knowledge; not re-verified).",
+    "notes": "Console is behind Google sign-in (probe redirected to login). Composio managed app has shared quota and 15-minute minimum trigger polling. Google Workspace admins can block third-party apps for their domain, so enterprise users may need admin approval."
+  },
+  "agentHelp": {
+    "canDo": [
+      "Draft scope justification, privacy policy and demo video script",
+      "Build the Composio auth config and session code with authConfigs",
+      "Test the authorize URL and token refresh behavior",
+      "Draft replies to Trust & Safety emails"
+    ],
+    "youMustDo": [
+      "Sign in to Google Cloud and Composio with your accounts",
+      "Create the OAuth client and publish the app",
+      "Verify domain ownership in Search Console",
+      "Record and upload the demo video",
+      "Submit verification and monitor the owner email"
+    ]
+  },
+  "drafts": [
+    {
+      "title": "Scope justification",
+      "purpose": "Google Verification Center scope justification field",
+      "content": "[APP NAME] is an AI assistant that lets users manage their Google Calendar by chat. We request https://www.googleapis.com/auth/calendar.events so the assistant can read the user's events to answer schedule questions and create, update and delete events the user explicitly asks for. We request [calendar / calendar.readonly only if needed] to [list calendars / reason]. Calendar data is only used to perform user-requested actions, is not sold, is not used for advertising or to train generalized AI models, and is stored [encrypted / not stored]. Narrower scopes such as calendar.app.created do not work because [REASON]. Privacy policy: [URL]."
+    },
+    {
+      "title": "Demo video outline",
+      "purpose": "Script for the required YouTube demo video",
+      "content": "1. Show app homepage and domain [DOMAIN].\n2. Click Connect Google Calendar.\n3. Show the Google consent screen with the browser URL and client_id visible, and the requested scopes.\n4. Approve and return to the app.\n5. Show a feature using each scope (e.g. 'what's on my calendar tomorrow' for events read; 'schedule lunch Friday' for event create).\n6. Show how users disconnect/delete data."
+    },
+    {
+      "title": "Reviewer note",
+      "purpose": "Reply to Trust & Safety",
+      "content": "Hello, our app [APP NAME] (project ID [PROJECT_ID]) uses Calendar scopes only for user-initiated actions. Privacy policy at [URL] covers Google user data under 'Google API Services User Data Policy' including Limited Use. Test account for reviewers: [EMAIL / instructions]. Please let us know what else you need."
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Composio: custom app vs managed app",
+      "url": "https://docs.composio.dev/docs/authentication/custom-app-vs-managed-app",
+      "kind": "composio"
+    },
+    {
+      "id": 2,
+      "title": "Composio catalog entry googlecalendar",
+      "url": "https://docs.composio.dev/data/toolkits.json",
+      "kind": "composio"
+    },
+    {
+      "id": 3,
+      "title": "Google Cloud Console credentials (login required)",
+      "url": "https://console.cloud.google.com/apis/credentials",
+      "kind": "probe"
+    },
+    {
+      "id": 4,
+      "title": "Google Cloud: OAuth app verification help",
+      "url": "https://support.google.com/cloud/answer/13463073",
+      "kind": "official"
+    },
+    {
+      "id": 5,
+      "title": "Google Calendar API: Choose scopes",
+      "url": "https://developers.google.com/workspace/calendar/api/auth",
+      "kind": "official"
+    },
+    {
+      "id": 6,
+      "title": "Google OAuth 2.0 scopes list",
+      "url": "https://developers.google.com/identity/protocols/oauth2/scopes",
+      "kind": "official"
+    },
+    {
+      "id": 7,
+      "title": "Google OAuth 2.0 token expiration",
+      "url": "https://developers.google.com/identity/protocols/oauth2#expiration",
+      "kind": "official"
+    },
+    {
+      "id": 8,
+      "title": "Google Cloud: Sensitive scope verification",
+      "url": "https://support.google.com/cloud/answer/13461325",
+      "kind": "official"
+    },
+    {
+      "id": 9,
+      "title": "Google Cloud Community: OAuth Verification Under Review for Over 5 Weeks (calendar.events)",
+      "url": "https://discuss.google.dev/t/oauth-verification-under-review-for-over-5-weeks-calendar-events/376009",
+      "kind": "community"
+    },
+    {
+      "id": 10,
+      "title": "Google Cloud Community: verification stuck on Privacy Policy review since April 2026",
+      "url": "https://discuss.google.dev/t/oauth-verification-stuck-on-privacy-policy-review-since-april-2026-no-trust-safety-email/380094",
+      "kind": "community"
+    },
+    {
+      "id": 11,
+      "title": "Authorize probe: accounts.google.com/o/oauth2/v2/auth",
+      "url": "https://accounts.google.com/o/oauth2/v2/auth",
+      "kind": "probe"
+    },
+    {
+      "id": 12,
+      "title": "OIDC discovery accounts.google.com",
+      "url": "https://accounts.google.com/.well-known/openid-configuration",
+      "kind": "probe"
+    }
+  ],
+  "probes": [
+    {
+      "action": "OAuth/OIDC discovery",
+      "target": "accounts.google.com",
+      "observed": "Found OIDC metadata: authorize https://accounts.google.com/o/oauth2/v2/auth, token https://oauth2.googleapis.com/token, PKCE plain and S256, grants include authorization_code and refresh_token.",
+      "conclusion": "Standard OAuth2 with PKCE support."
+    },
+    {
+      "action": "Authorize probe with unregistered client_id and Composio redirect URI",
+      "target": "https://accounts.google.com/o/oauth2/v2/auth",
+      "observed": "302 to signin/oauth/error with authError decoding to invalid_client ('The OAuth client was not found'); no redirect back to Composio.",
+      "conclusion": "Endpoint live; unregistered clients get an invalid_client error page."
+    },
+    {
+      "action": "HTTP probe of developer console",
+      "target": "https://console.cloud.google.com/apis/credentials",
+      "observed": "302 to Google sign-in (ServiceLogin).",
+      "conclusion": "Console exists and requires login."
+    }
+  ],
+  "uncertainties": [
+    "Official sensitivity labels for each Calendar scope were not visible in the fetched pages; calendar and calendar.events being sensitive comes from my background knowledge. Check the scope labels in the Console.",
+    "The 100-user cap for unverified apps was not confirmed on a fetched official page.",
+    "The 4-6 week and 3-5 day figures come from forum posts quoting the Verification Center, not an official page I read.",
+    "Whether new narrow scopes (calendar.events.owned, calendar.app.created, freebusy) are non-sensitive is unconfirmed.",
+    "Google Workspace admin restrictions and any 2026 policy changes beyond forum reports were not researched in depth.",
+    "Only a real logged-in setup would confirm current Console menu names (Google Auth Platform layout)."
+  ],
+  "slug": "googlecalendar",
+  "logo": "https://logos.composio.dev/api/googlecalendar",
+  "composio": {
+    "slug": "googlecalendar",
+    "composioManaged": true,
+    "redirectUri": "https://backend.composio.dev/api/v1/auth-apps/add",
+    "defaultScopes": "https://www.googleapis.com/auth/calendar,https://www.googleapis.com/auth/calendar.events",
+    "oauthSchemes": [
+      "OAUTH2"
+    ]
+  },
+  "meta": {
+    "generatedAt": "2026-10-28T13:01:14.392Z",
+    "model": "sonnet",
+    "durationMs": 142107,
+    "toolCalls": 9,
+    "costUsd": 0.27359069999999996,
+    "query": "Google Calendar"
+  },
+  "review": {
+    "status": "agent_generated",
+    "reviewedAt": null,
+    "summary": null,
+    "corrections": []
+  }
+}

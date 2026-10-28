@@ -1,0 +1,55 @@
+{
+  "guideGeneratedAt": "2026-10-28T12:51:37.387Z",
+  "reviewedAt": "2026-10-28T14:30:00Z",
+  "summary": "Checked 8 claims against LinkedIn's official docs on Microsoft Learn. Numbers and policies were accurate; one step overstated its evidence. The 'Easy' rating holds only for Composio's default self-serve scopes, which the guide states.",
+  "corrections": [
+    {
+      "claim": "Self-serve access tokens last 60 days; refresh tokens (365 days, TTL not reset on use) are only for approved MDP partners",
+      "finding": "Confirmed verbatim in 'Refresh Tokens with OAuth 2.0'.",
+      "action": "confirmed",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/programmatic-refresh-tokens"
+    },
+    {
+      "claim": "Share on LinkedIn limits: 150 requests/member/day, 100,000/app/day",
+      "finding": "Confirmed in the Share on LinkedIn throttle table.",
+      "action": "confirmed",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin"
+    },
+    {
+      "claim": "Community Management Development tier: 500 calls/app/day, 100/member/day, no BATCH_GET, no webhooks, 12 months to build",
+      "finding": "Confirmed in 'Increasing Access'.",
+      "action": "confirmed",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access"
+    },
+    {
+      "claim": "A rejected Community Management application cannot re-apply with the same app",
+      "finding": "Confirmed: 'create a new app, and submit a new Development tier access request form.'",
+      "action": "confirmed",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/marketing/community-management-app-review"
+    },
+    {
+      "claim": "Marketing version 202511 sunsets on 2026-11-16",
+      "finding": "Confirmed on the versioning page.",
+      "action": "confirmed",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/marketing/versioning"
+    },
+    {
+      "claim": "Step 'Apply for Community Management API on a dedicated app' labeled Documented",
+      "finding": "Its two key specifics (API must be the only product on the app; 21-day survey window) are not on the official App Review page. Relabeled Reported and reworded.",
+      "action": "corrected",
+      "sourceUrl": "https://learn.microsoft.com/en-us/linkedin/marketing/community-management-app-review"
+    },
+    {
+      "claim": "Community Management API must be alone on its app",
+      "finding": "Plausible and widely reported, but not stated in official docs fetched. Only a real Products-tab attempt would confirm.",
+      "action": "flagged",
+      "sourceUrl": null
+    },
+    {
+      "claim": "Unverified app (Page admin hasn't approved) can't use self-serve products",
+      "finding": "Not resolvable from docs; needs a logged-in attempt. Left in uncertainties.",
+      "action": "flagged",
+      "sourceUrl": null
+    }
+  ]
+}
