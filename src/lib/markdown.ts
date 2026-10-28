@@ -1,6 +1,7 @@
 import type { Guide } from "@/lib/guide";
 import { CONFIDENCE, DIFFICULTY, OWNER } from "@/lib/labels";
 
+const sentence = (s: string) => s.replace(/\.+$/, "");
 const cite = (ids: number[]) => (ids.length ? " " + ids.map((i) => `[${i}]`).join("") : "");
 
 export function guideToMarkdown(g: Guide, url: string): string {
@@ -10,8 +11,8 @@ export function guideToMarkdown(g: Guide, url: string): string {
   push(`# ${g.appName}: OAuth app setup guide`, "");
   push(`> ${g.summary}`, "");
   push(`- **Difficulty:** ${DIFFICULTY[g.verdict.difficulty].label}. ${g.verdict.difficultyReason}`);
-  push(`- **Dev-ready (works with your own account):** ${g.verdict.devReady.estimate}. ${g.verdict.devReady.detail}`);
-  push(`- **Production-ready (any user can connect):** ${g.verdict.productionReady.estimate}. ${g.verdict.productionReady.detail}`);
+  push(`- **Dev-ready (works with your own account):** ${sentence(g.verdict.devReady.estimate)}. ${g.verdict.devReady.detail}`);
+  push(`- **Production-ready (any user can connect):** ${sentence(g.verdict.productionReady.estimate)}. ${g.verdict.productionReady.detail}`);
   push(`- **Approval required:** ${g.verdict.productionReady.approvalRequired ? "Yes" : "No"}`);
   push(`- **Hands-on effort:** ${g.verdict.handsOnEffort}`);
   if (g.composio) {
